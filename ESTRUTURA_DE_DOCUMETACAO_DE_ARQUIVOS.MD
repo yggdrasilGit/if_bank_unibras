@@ -149,12 +149,12 @@ class ProfileCard extends StatelessWidget {
 /// See also:
 /// * [AuthService]
 /// * [UserRepository]
-class LoginPage extends StatefulWidget {
+class LoginPage extends StatefulWidget {}
 ```
 
 ---
 
-# Boas práticas Flutter (nível profissional) 🚀
+# Boas práticas Flutter (nível profissional) 
 
 Sempre documente:
 
@@ -167,9 +167,9 @@ Sempre documente:
 ✔ Métodos complexos
 
 Evite documentar:
-❌ UI simples
-❌ getters óbvios
-❌ código autoexplicativo
+UI simples
+getters óbvios
+código autoexplicativo
 
 ---
 
