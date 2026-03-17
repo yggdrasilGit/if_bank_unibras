@@ -1,42 +1,149 @@
 # Documentacao do projeto.
 
-## Modelo de docstring para arquivos Flutter
+## Modelo completo de docstring para arquivos
 
 ```dart
 /// ============================================================
-/// File: user_controller.dart
-/// Module: Authentication
+/// Arquivo: nome_do_arquivo.dart
+/// Projeto: Nome do Projeto
 ///
-/// Description:
-/// Controller responsible for managing user authentication logic,
-/// including login, logout and session validation.
+/// Descrição:
+/// Este arquivo é responsável por [explicar claramente a função].
+/// Ele contém [classes/funções/utilidades] relacionadas a [módulo].
 ///
-/// Features:
-/// - User login
-/// - User logout
-/// - Token validation
-/// - Session persistence
+/// Responsabilidades:
+/// - Gerenciar ...
+/// - Processar ...
+/// - Validar ...
 ///
-/// Dependencies:
-/// - flutter/material.dart
-/// - provider
-/// - http
+/// Dependências:
+/// - package:flutter/material.dart
+/// - dart:convert
 ///
-/// Author: Seu Nome
-/// Created: 2026-03-17
-/// Last modified: 2026-03-17
-/// Version: 1.0.0
+/// Autor(es):
+/// - Nome Sobrenome
 ///
-/// Notes:
-/// This file follows Flutter clean architecture principles.
+/// Criado em: 17/03/2026
+/// Última modificação: 17/03/2026
 ///
-/// License: MIT
+/// Histórico de alterações:
+/// Versão    Data        Autor        Descrição
+/// 1.0.0     17/03/2026  Seu nome     Criação do arquivo
+///
+/// Convenções:
+/// - Segue padrões do Effective Dart
+/// - Null safety habilitado
+///
+/// Observações:
+/// Qualquer informação extra importante.
+///
+/// Licença:
+/// MIT License
 /// ============================================================
 ```
 
 ---
 
-# Modelo para Widgets (MUITO IMPORTANTE em Flutter)
+## Modelo para documentar CLASSES
+
+````dart
+/// Representa um serviço responsável por autenticação.
+///
+/// Esta classe gerencia:
+/// - Login
+/// - Logout
+/// - Refresh token
+///
+/// Exemplo:
+/// ```dart
+/// final auth = AuthService();
+/// auth.login("email", "senha");
+/// ```
+///
+/// Autor: Seu nome
+class AuthService {
+
+}
+````
+
+---
+
+## Modelo para documentar FUNÇÕES
+
+````dart
+/// Calcula o total de um pedido.
+///
+/// Recebe o valor base e aplica impostos.
+///
+/// Parâmetros:
+/// [price] Valor original
+/// [tax] Percentual de imposto
+///
+/// Retorna:
+/// Valor final com imposto aplicado.
+///
+/// Exemplo:
+/// ```dart
+/// final total = calculateTotal(100, 10);
+/// ```
+///
+/// Throws:
+/// Exception se o valor for negativo.
+double calculateTotal(double price, double tax) {
+  return price + (price * tax / 100);
+}
+````
+
+---
+
+## Modelo para documentar MÉTODOS
+
+```dart
+/// Realiza o login do usuário.
+///
+/// Retorna true se sucesso.
+///
+/// Parâmetros:
+/// [email] Email do usuário
+/// [password] Senha do usuário
+///
+/// Retorna:
+/// bool indicando sucesso.
+Future<bool> login(String email, String password) async {
+  return true;
+}
+```
+
+---
+
+## Modelo profissional usado em projetos grandes
+
+(Este é o mais recomendado)
+
+```dart
+/// {@category Services}
+/// {@subCategory Authentication}
+/// {@author Seu Nome}
+/// {@version 1.0.0}
+///
+/// Serviço responsável pelo gerenciamento de autenticação.
+```
+
+
+## Padrão que devs Flutter usam (recomendado)
+
+Este é o estilo mais comum:
+
+```dart
+/// Service responsible for user authentication.
+///
+/// Handles login, logout and token refresh.
+class AuthService {}
+```
+
+---
+
+## Modelo para Widgets (MUITO IMPORTANTE em Flutter)
 
 ## StatelessWidget
 
@@ -89,7 +196,7 @@ class LoginPage extends StatefulWidget {
 
 ---
 
-# Modelo para propriedades
+## Modelo para propriedades
 
 ```dart
 /// Nome do usuário autenticado.
@@ -101,7 +208,7 @@ final String token;
 
 ---
 
-# Modelo para métodos Flutter
+## Modelo para métodos Flutter
 
 ```dart
 /// Realiza a autenticação do usuário.
@@ -117,7 +224,7 @@ Future<bool> login() async {
 
 ---
 
-# Modelo recomendado pelo Flutter team (melhor prática)
+## Modelo recomendado pelo Flutter team (melhor prática)
 
 Este é o padrão **mais correto**:
 
@@ -131,7 +238,7 @@ class ProfileCard extends StatelessWidget {
 
 ---
 
-# Padrão usado em projetos Flutter profissionais
+## Padrão usado em projetos Flutter profissionais
 
 (este é o melhor template)
 
@@ -154,7 +261,7 @@ class LoginPage extends StatefulWidget {}
 
 ---
 
-# Boas práticas Flutter (nível profissional) 
+## Boas práticas Flutter (nível profissional)
 
 Sempre documente:
 
@@ -173,7 +280,7 @@ código autoexplicativo
 
 ---
 
-# Dica MUITO profissional
+## Dica MUITO profissional
 
 Use também:
 
