@@ -32,7 +32,12 @@ class BrandGuidelinesPage extends StatelessWidget {
       appBar: AppBar(
         centerTitle: false,
         title: const Text("BRAND GUIDELINES"),
-        actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.menu))],
+        actions: [
+          IconButton(
+            onPressed: () => print("natalha"),
+            icon: const Icon(Icons.menu),
+          ),
+        ],
       ),
       body: ListView(
         children: [
