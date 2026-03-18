@@ -132,10 +132,13 @@ import '../../features/auth/presentation/views/login_page.dart';
 class AppRoutes {
   /// Rota inicial (Login)
   static const String login = '/';
+  /// Rota da página de (Registro)
+  // static const Register register = '/register'
 
   /// Mapa de rotas da aplicação
   static Map<String, WidgetBuilder> get routes => {
         /// Mapeamento da rota de login
         login: (_) => const LoginPage(),
+        // register: (_) => const RegisterPage(),
       };
 }
