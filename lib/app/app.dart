@@ -157,7 +157,7 @@ class IfBankApp extends StatelessWidget {
         title: 'IF Bank',
 
         /// Remove banner de debug
-        debugShowCheckedModeBanner: false,
+        debugShowCheckedModeBanner: true,
 
         /// Tema global da aplicação
         theme: AppTheme.lightTheme,

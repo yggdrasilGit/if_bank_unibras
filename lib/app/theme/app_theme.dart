@@ -115,11 +115,13 @@ class AppTheme {
   /// Tema claro da aplicação
   static ThemeData get lightTheme {
     /// Cor primária da marca IF Bank
-    const primaryColor = Color(0xFF10B981);
-    const secundaryColor = Color(0xff475569);
+    const Color primaryColor = Color(0xFF10B981);
+    const Color secundaryColor = Color(0xff475569);
+    const Color  terciaryColor = Color(0xffffffff);
+    const Color fistColor = Color(0xFF0F172A);
 
     /// Cor padrão dos textos (branco)
-    const textColor = Colors.white;
+    const textColor = terciaryColor;
 
     return ThemeData(
       useMaterial3: true,
@@ -131,7 +133,7 @@ class AppTheme {
       ),
 
       /// Fundo escuro
-      scaffoldBackgroundColor: const Color(0xFF0F172A),
+      scaffoldBackgroundColor: fistColor,
 
       /// 🔥 TEXTOS GLOBAIS
       textTheme: const TextTheme(
@@ -144,7 +146,7 @@ class AppTheme {
       ),
 
       /// ÍCONES BRANCOS
-      iconTheme: const IconThemeData(color: Colors.white),
+      iconTheme: const IconThemeData(color: terciaryColor),
 
       /// INPUTS
       inputDecorationTheme: InputDecorationTheme(
@@ -157,7 +159,7 @@ class AppTheme {
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(14)),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
-          borderSide: const BorderSide(color: Color(0xFF334155)),
+          borderSide: const BorderSide(color: secundaryColor),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
@@ -169,7 +171,7 @@ class AppTheme {
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: primaryColor,
-          foregroundColor: Colors.white,
+          foregroundColor: terciaryColor,
           minimumSize: const Size.fromHeight(52),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(14),
@@ -180,7 +182,7 @@ class AppTheme {
       /// CARDS
       cardTheme: CardThemeData(
         elevation: 4,
-        color: const Color(0xFF1E293B),
+        color: secundaryColor,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
       ),
     );
