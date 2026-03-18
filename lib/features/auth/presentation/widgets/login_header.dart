@@ -51,7 +51,7 @@
 ///
 /// LoginHeader
 ///  └── Column
-///       ├── Icon (logo)
+///       ├── SvgPicture.asset(logo)
 ///       ├── Text (nome do app)
 ///       └── Text (subtítulo)
 ///
