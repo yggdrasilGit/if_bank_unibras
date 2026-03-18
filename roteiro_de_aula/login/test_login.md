@@ -39,7 +39,7 @@ test/
 
 Aqui você testa a regra da tela sem UI.
 
-📄 `login_viewmodel.dart`
+`login_viewmodel.dart`
 
 ### O que testar:
 
@@ -94,9 +94,9 @@ test('deve retornar erro quando login falhar', () async {
 
 ---
 
-# 🧪 2. Testes de UseCase (Regra de negócio)
+# 2. Testes de UseCase (Regra de negócio)
 
-📄 `login_usecase.dart`
+`login_usecase.dart`
 
 ### O que testar:
 
@@ -116,9 +116,9 @@ test('deve chamar o repository', () async {
 
 ---
 
-# 🧪 3. Testes de Repository
+# 3. Testes de Repository
 
-📄 `auth_repository_impl.dart`
+`auth_repository_impl.dart`
 
 ### O que testar:
 
@@ -155,9 +155,9 @@ test('deve retornar erro quando exception', () async {
 
 ---
 
-# 🧪 4. Testes de DataSource
+#  4. Testes de DataSource
 
-📄 `auth_remote_datasource.dart`
+`auth_remote_datasource.dart`
 
 Aqui você testa a integração (ou simulação da API).
 
@@ -178,9 +178,9 @@ test('deve retornar usuário válido', () async {
 
 ---
 
-# 🧪 5. Testes de Widget (UI)
+# 5. Testes de Widget (UI)
 
-📄 `login_page.dart` / `login_form.dart`
+`login_page.dart` / `login_form.dart`
 
 ### O que testar:
 
@@ -216,7 +216,7 @@ testWidgets('deve mostrar erro quando login falhar', (tester) async {
 
 ---
 
-# 🧪 6. Testes de Validação
+#  6. Testes de Validação
 
 `validator_service.dart`
 
@@ -232,30 +232,30 @@ test('email inválido deve retornar erro', () {
 
 ---
 
-# 🧪 Resumo (o que você precisa testar)
+# Resumo (o que você precisa testar)
 
-### 🔹 Camada Presentation
+###  Camada Presentation
 
-* ViewModel ✅ (PRINCIPAL)
+* ViewModel  (PRINCIPAL)
 * Widgets
 
-### 🔹 Camada Domain
+###  Camada Domain
 
 * UseCases
 
-### 🔹 Camada Data
+### Camada Data
 
 * Repository
 * DataSource
 
-### 🔹 Core
+### Core
 
 * Validators
 * Utils
 
 ---
 
-# 🧠 Dica de nível profissional
+# Dica de nível profissional
 
 Para evoluir isso:
 
@@ -266,9 +266,9 @@ Para evoluir isso:
 
 ---
 
-# 🚀 Regra de ouro
+# Regra de ouro
 
-👉 Se tiver que escolher prioridade:
+Se tiver que escolher prioridade:
 
 1. **ViewModel (mais importante)**
 2. UseCase
