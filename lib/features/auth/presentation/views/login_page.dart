@@ -119,17 +119,17 @@
 /// ------------------------------------------------------------
 ///
 /// Autor(es):
-/// - Seu Nome
+/// - Francismar Alves Martins Junior
 ///
-/// Criado em: 17/03/2026
-/// Última modificação: 17/03/2026
+/// Criado em: 18/03/2026
+/// Última modificação: 18/03/2026
 ///
 /// ------------------------------------------------------------
 ///
 /// Histórico:
 ///
 /// Versão | Data       | Autor       | Descrição
-/// 1.0.0  | 17/03/2026 | Seu Nome    | Implementação inicial da tela
+/// 1.0.0  | 18/03/2026 | Francismar  | Implementação inicial da tela
 ///
 /// ------------------------------------------------------------
 ///

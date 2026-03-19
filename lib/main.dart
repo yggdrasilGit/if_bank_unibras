@@ -20,7 +20,7 @@
 /// - app/app.dart → Widget raiz da aplicação
 ///
 /// Autor(es):
-/// - Nome Sobrenome
+/// - Francismar Alves Martins Junior
 ///
 /// Criado em: 18/03/2026
 /// Última modificação: 18/03/2026

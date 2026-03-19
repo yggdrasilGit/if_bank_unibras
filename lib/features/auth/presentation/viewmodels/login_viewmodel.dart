@@ -113,15 +113,15 @@
 /// Autor(es):
 /// - Seu Nome
 ///
-/// Criado em: 17/03/2026
-/// Última modificação: 17/03/2026
+/// Criado em: 18/03/2026
+/// Última modificação: 18/03/2026
 ///
 /// ------------------------------------------------------------
 ///
 /// Histórico de versões:
 ///
 /// Versão | Data       | Autor       | Descrição
-/// 1.0.0  | 17/03/2026 | Seu Nome    | Implementação inicial do ViewModel de login
+/// 1.0.0  | 18/03/2026 | Francismar  | Implementação inicial do ViewModel de login
 ///
 /// ------------------------------------------------------------
 ///
