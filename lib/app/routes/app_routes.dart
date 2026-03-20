@@ -127,6 +127,7 @@
 /// ============================================================
 
 import 'package:flutter/material.dart';
+import 'package:if_bank/screens/login_screen.dart';
 
 import '../../features/auth/presentation/views/login_page.dart';
 
@@ -139,7 +140,7 @@ class AppRoutes {
   // static const Register register = '/register'
 
   /// Rota da Página inical do App
- // static const String loginScreen = "/";
+  static const String loginScreen = "/";
 
   /// Mapa de rotas da aplicação
   static Map<String, WidgetBuilder> get routes => {
@@ -148,6 +149,6 @@ class AppRoutes {
     // register: (_) => const RegisterPage(),
 
     /// Mapeamento da rota de login
-//    loginScreen: (_) =>  LoginScreen(),
+    loginScreen: (_) =>  LoginScreen(),
   };
 }

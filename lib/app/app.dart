@@ -163,7 +163,7 @@ class IfBankApp extends StatelessWidget {
         theme: AppTheme.lightTheme,
 
         /// Rota inicial ao abrir o app
-        initialRoute: AppRoutes.login,
+        initialRoute: AppRoutes.loginScreen, // coloque sua tela 
 
         /// Mapa de rotas da aplicação
         routes: AppRoutes.routes,
