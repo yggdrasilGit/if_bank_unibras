@@ -120,6 +120,7 @@
 /// Licença:
 /// MIT License
 /// ============================================================
+library;
 
 /// Model que representa os dados de requisição de login.
 class LoginRequestModel {

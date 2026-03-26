@@ -129,6 +129,7 @@
 /// Licença:
 /// UNIBRAS License
 /// ============================================================
+library;
 
 /// Classe genérica que representa o resultado de uma operação.
 class Result<T> {

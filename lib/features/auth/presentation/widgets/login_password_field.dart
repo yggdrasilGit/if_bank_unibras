@@ -131,6 +131,7 @@
 /// Licença:
 /// MIT License
 /// ============================================================
+library;
 
 import 'package:flutter/material.dart';
 

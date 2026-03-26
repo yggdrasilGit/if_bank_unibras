@@ -50,6 +50,7 @@
 /// Licença:
 /// UNIBRAS License
 /// ============================================================
+library;
 
 import 'package:flutter/material.dart';
 import 'app/app.dart';

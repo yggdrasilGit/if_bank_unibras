@@ -12,7 +12,7 @@
 /// Responsabilidades:
 ///
 /// - Construir a UI da tela de login
-/// - Integrar widgets 
+/// - Integrar widgets
 ///
 /// ------------------------------------------------------------
 ///
@@ -39,7 +39,7 @@
 /// ------------------------------------------------------------
 ///
 /// Dependências internas:
-/// 
+///
 ///
 /// ------------------------------------------------------------
 ///
@@ -53,20 +53,20 @@
 ///                     └── SvgPitures
 ///                     └── Text
 ///                     └── Text
-///              
-/// 
+///
+///
 ///
 /// ------------------------------------------------------------
 ///
 /// Fluxo de execução:
 ///
-/// 
+///
 ///
 /// ------------------------------------------------------------
 ///
 /// Gerenciamento de estado:
 ///
-/// 
+///
 ///
 /// ------------------------------------------------------------
 ///
@@ -77,6 +77,7 @@
 ///
 /// Boas práticas:
 ///
+library;
 
 ///
 /// ------------------------------------------------------------
@@ -116,7 +117,6 @@
 /// MIT License
 /// ============================================================
 
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -127,21 +127,42 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: Padding(
+          padding: EdgeInsetsGeometry.all(24),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
 
-          children: [
-            SvgPicture.asset("assets/images/logo_if_bank.svg"),
-          
-            Text(
-              "IF Bank",
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
+            children: [
+              SvgPicture.asset("assets/images/logo_if_bank.svg"),
 
-            SizedBox(height: 24),
-            Text("Acesse sua conta"),
-            SizedBox(height: 24),
-          ],
+              Text(
+                "IF Bank",
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              ),
+
+              SizedBox(height: 24),
+              Text("Acesse sua conta"),
+              SizedBox(height: 24),
+
+              TextField(decoration: InputDecoration(labelText: 'Nome')),
+              SizedBox(height: 24),
+              TextField(decoration: InputDecoration(labelText: 'Senha')),
+
+              Container(
+                width: double.maxFinite,
+                child: Text('Esqueci minha senha'),
+              ),
+              SizedBox(height: 16),
+
+              ElevatedButton(onPressed: () {}, child: Text("Acessar")),
+
+              Container(
+                width: double.maxFinite,
+                alignment: AlignmentGeometry.bottomRight,
+                child: Text('Cadastrar conta'),
+              ),
+            ],
+          ),
         ),
       ),
     );

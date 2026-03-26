@@ -127,6 +127,7 @@
 /// Licença:
 /// MIT License
 /// ============================================================
+library;
 
 import 'package:if_bank/core/results/result.dart';
 import 'package:if_bank/features/auth/data/repositories/auth_repository.dart';

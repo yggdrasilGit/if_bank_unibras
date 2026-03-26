@@ -124,6 +124,7 @@
 /// Licença:
 /// MIT License
 /// ============================================================
+library;
 
 import '../../domain/entities/user_entity.dart';
 import '../models/login_request_model.dart';
