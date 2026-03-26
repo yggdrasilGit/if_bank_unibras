@@ -141,6 +141,7 @@
 /// Licença:
 /// MIT License
 /// ============================================================
+library;
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -171,7 +172,7 @@ class LoginForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<LoginViewModel>(
-      builder: (_, viewModel, __) {
+      builder: (_, viewModel, _) {
         return Form(
           key: viewModel.formKey,
           child: Column(

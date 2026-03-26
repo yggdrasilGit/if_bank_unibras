@@ -118,6 +118,7 @@
 /// Licença:
 /// MIT License
 /// ============================================================
+library;
 
 /// Serviço responsável por validações de formulário.
 class ValidatorService {

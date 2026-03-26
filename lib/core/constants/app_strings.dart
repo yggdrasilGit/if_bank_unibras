@@ -108,6 +108,7 @@
 /// Licença:
 /// MIT License
 /// ============================================================
+library;
 
 /// Classe responsável por armazenar todas as strings da aplicação.
 class AppStrings {

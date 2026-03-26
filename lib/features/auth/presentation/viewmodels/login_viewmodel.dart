@@ -128,6 +128,7 @@
 /// Licença:
 /// MIT License
 /// ============================================================
+library;
 
 import 'package:flutter/material.dart';
 import 'package:if_bank/features/auth/domain/usercase/login_usercase.dart';

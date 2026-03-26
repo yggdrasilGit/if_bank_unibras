@@ -125,6 +125,7 @@
 /// Licença:
 /// UNIBRAS License
 /// ============================================================
+library;
 
 import 'package:flutter/material.dart';
 import 'package:if_bank/screens/login_screen.dart';

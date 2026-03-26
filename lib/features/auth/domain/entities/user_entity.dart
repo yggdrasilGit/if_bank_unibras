@@ -117,6 +117,7 @@
 /// Licença:
 /// MIT License
 /// ============================================================
+library;
 
 /// Entidade que representa um usuário no domínio da aplicação.
 class UserEntity {
