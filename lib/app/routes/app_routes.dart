@@ -128,7 +128,9 @@
 library;
 
 import 'package:flutter/material.dart';
+import 'package:if_bank/screens/forgot_password_screen.dart';
 import 'package:if_bank/screens/login_screen.dart';
+import 'package:if_bank/screens/register_screen.dart';
 
 import '../../features/auth/presentation/views/login_page.dart';
 
@@ -136,6 +138,8 @@ import '../../features/auth/presentation/views/login_page.dart';
 class AppRoutes {
   /// Rota inicial (Login)
   static const String login = '/login';
+  static const String register = '/register';
+  static const String forgotPassword = '/forgot-password';
 
   /// Rota da página de (Registro)
   // static const Register register = '/register'
@@ -150,6 +154,8 @@ class AppRoutes {
     // register: (_) => const RegisterPage(),
 
     /// Mapeamento da rota de login
-    loginScreen: (_) =>  LoginScreen(),
+    loginScreen: (_) => LoginScreen(),
+    register: (_) => const RegisterScreen(),
+    forgotPassword: (_) => const ForgotPasswordScreen(),
   };
 }

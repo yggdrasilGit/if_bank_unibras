@@ -1,145 +1,33 @@
-/// ============================================================
-/// Arquivo: login_screen.dart
-/// Projeto: IF Bank Mobile Application
-///
-/// Descrição:
-/// Tela responsável por renderizar a interface de login do usuário.
-///
-///
-///
-/// ------------------------------------------------------------
-///
-/// Responsabilidades:
-///
-/// - Construir a UI da tela de login
-/// - Integrar widgets
-///
-/// ------------------------------------------------------------
-///
-/// Arquitetura:
-///
-/// Camada:
-/// → Presentation (View)
-///
-/// Padrão:
-/// → MVVM (Model-View-ViewModel)
-///
-/// Comunicação:
-///
-/// View → ViewModel (ações)
-/// ViewModel → View (estado)
-///
-/// ------------------------------------------------------------
-///
-/// Dependências externas:
-///
-/// - flutter/material.dart
-/// - import 'package:flutter_svg/svg.dart';
-///
-/// ------------------------------------------------------------
-///
-/// Dependências internas:
-///
-///
-/// ------------------------------------------------------------
-///
-/// Estrutura da UI:
-///
-/// LoginPage
-///  └── Scaffold
-///       └── SafeArea
-///            └── Center
-///                 └── Colunm
-///                     └── SvgPitures
-///                     └── Text
-///                     └── Text
-///
-///
-///
-/// ------------------------------------------------------------
-///
-/// Fluxo de execução:
-///
-///
-///
-/// ------------------------------------------------------------
-///
-/// Gerenciamento de estado:
-///
-///
-///
-/// ------------------------------------------------------------
-///
-/// Feedback ao usuário:
-///
-///
-/// ------------------------------------------------------------
-///
-/// Boas práticas:
-///
-library;
-
-///
-/// ------------------------------------------------------------
-///
-/// Responsividade:
-///
-
-///
-/// ------------------------------------------------------------
-///
-/// Restrições:
-///
-/// NÃO deve conter:
-///
-/// - Regras de negócio
-/// - Chamadas diretas de API
-/// - Validações complexas
-///
-/// ------------------------------------------------------------
-///
-/// Autor(es):
-/// - Francismar Alves Martins Junior
-///
-/// Criado em: 19/03/2026
-/// Última modificação: 19/03/2026
-///
-/// ------------------------------------------------------------
-///
-/// Histórico:
-///
-/// Versão | Data       | Autor       | Descrição
-/// 1.0.0  | 19/03/2026 | Francismar  | Implentação da estrutua inicial
-///
-/// ------------------------------------------------------------
-///
-/// Licença:
-/// MIT License
-/// ============================================================
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:if_bank/app/routes/app_routes.dart';
-import '../core/constants/app_strings.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+import '../app/routes/app_routes.dart';
+import '../core/constants/app_strings.dart';
+import '../core/widgets/app_top_bar.dart';
+
+class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _RegisterScreenState extends State<RegisterScreen> {
   bool _obscurePassword = true;
+  bool _obscureConfirmPassword = true;
   final _formKey = GlobalKey<FormState>();
+  final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
   static final RegExp _emailRegex = RegExp(r'^[\w\.-]+@([\w-]+\.)+[\w-]{2,4}$');
 
   @override
   void dispose() {
+    _nameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
+    _confirmPasswordController.dispose();
     super.dispose();
   }
 
@@ -148,6 +36,10 @@ class _LoginScreenState extends State<LoginScreen> {
     final theme = Theme.of(context);
 
     return Scaffold(
+      appBar: const AppTopBar(
+        title: 'Cadastro',
+        fallbackRoute: AppRoutes.loginScreen,
+      ),
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -165,9 +57,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         children: [
                           SvgPicture.asset(
                             'assets/images/logo_if_bank.svg',
-                            height: 68,
+                            height: 64,
                           ),
-                          const SizedBox(height: 16),
+                          const SizedBox(height: 12),
                           Text(
                             AppStrings.appName,
                             style: theme.textTheme.headlineSmall?.copyWith(
@@ -175,15 +67,27 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                           const SizedBox(height: 8),
-                          Text(
-                            AppStrings.loginTitle,
-                            style: theme.textTheme.bodyMedium?.copyWith(
-                              color: Colors.white70,
-                            ),
+                          const Text(
+                            'Crie sua conta',
+                            style: TextStyle(color: Colors.white70),
                           ),
                         ],
                       ),
-                      const SizedBox(height: 28),
+                      const SizedBox(height: 24),
+                      TextFormField(
+                        controller: _nameController,
+                        validator: (value) {
+                          if ((value?.trim().isEmpty ?? true)) {
+                            return 'Informe seu nome completo';
+                          }
+                          return null;
+                        },
+                        decoration: const InputDecoration(
+                          labelText: 'Nome completo',
+                          prefixIcon: Icon(Icons.person_outline),
+                        ),
+                      ),
+                      const SizedBox(height: 16),
                       TextFormField(
                         controller: _emailController,
                         keyboardType: TextInputType.emailAddress,
@@ -209,7 +113,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         validator: (value) {
                           final password = value?.trim() ?? '';
                           if (password.isEmpty) {
-                            return 'Informe sua senha';
+                            return 'Informe uma senha';
                           }
                           if (password.length < 6) {
                             return 'A senha deve ter ao menos 6 caracteres';
@@ -233,20 +137,40 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 8),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: TextButton(
-                          onPressed: () {
-                            Navigator.pushNamed(
-                              context,
-                              AppRoutes.forgotPassword,
-                            );
-                          },
-                          child: const Text(AppStrings.forgotPassword),
+                      const SizedBox(height: 16),
+                      TextFormField(
+                        controller: _confirmPasswordController,
+                        obscureText: _obscureConfirmPassword,
+                        validator: (value) {
+                          final confirmPassword = value?.trim() ?? '';
+                          if (confirmPassword.isEmpty) {
+                            return 'Confirme sua senha';
+                          }
+                          if (confirmPassword !=
+                              _passwordController.text.trim()) {
+                            return 'As senhas nao coincidem';
+                          }
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                          labelText: 'Confirmar senha',
+                          prefixIcon: const Icon(Icons.lock_outline),
+                          suffixIcon: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                _obscureConfirmPassword =
+                                    !_obscureConfirmPassword;
+                              });
+                            },
+                            icon: Icon(
+                              _obscureConfirmPassword
+                                  ? Icons.visibility_off_outlined
+                                  : Icons.visibility_outlined,
+                            ),
+                          ),
                         ),
                       ),
-                      const SizedBox(height: 8),
+                      const SizedBox(height: 20),
                       Builder(
                         builder: (buttonContext) => ElevatedButton(
                           onPressed: () {
@@ -254,29 +178,15 @@ class _LoginScreenState extends State<LoginScreen> {
                             if (isValid) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
-                                  content: Text('Dados de login validados!'),
+                                  content: Text(
+                                    'Cadastro validado com sucesso!',
+                                  ),
                                 ),
                               );
                             }
                           },
-                          child: const Text(AppStrings.signIn),
+                          child: const Text('Cadastrar'),
                         ),
-                      ),
-                      const SizedBox(height: 12),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            AppStrings.noAccount,
-                            style: theme.textTheme.bodyMedium,
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              Navigator.pushNamed(context, AppRoutes.register);
-                            },
-                            child: const Text(AppStrings.createAccount),
-                          ),
-                        ],
                       ),
                     ],
                   ),
