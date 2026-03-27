@@ -120,172 +120,166 @@ library;
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:if_bank/app/routes/app_routes.dart';
+import 'package:provider/provider.dart';
+
 import '../core/constants/app_strings.dart';
+import '../features/auth/presentation/viewmodels/login_viewmodel.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
-
-  @override
-  State<LoginScreen> createState() => _LoginScreenState();
-}
-
-class _LoginScreenState extends State<LoginScreen> {
-  bool _obscurePassword = true;
-  final _formKey = GlobalKey<FormState>();
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-  static final RegExp _emailRegex = RegExp(r'^[\w\.-]+@([\w-]+\.)+[\w-]{2,4}$');
-
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return Scaffold(
-      body: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 420),
-              child: Padding(
-                padding: const EdgeInsets.all(8),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Column(
+    return Consumer<LoginViewModel>(
+      builder: (_, viewModel, __) {
+        return Scaffold(
+          body: SafeArea(
+            child: Center(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 16,
+                ),
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 420),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: Form(
+                      key: viewModel.formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          SvgPicture.asset(
-                            'assets/images/logo_if_bank.svg',
-                            height: 68,
+                          Column(
+                            children: [
+                              SvgPicture.asset(
+                                'assets/images/logo_if_bank.svg',
+                                height: 68,
+                              ),
+                              const SizedBox(height: 16),
+                              Text(
+                                AppStrings.appName,
+                                style: theme.textTheme.headlineSmall?.copyWith(
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                AppStrings.loginTitle,
+                                style: theme.textTheme.bodyMedium?.copyWith(
+                                  color: Colors.white70,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 28),
+                          TextFormField(
+                            controller: viewModel.emailController,
+                            keyboardType: TextInputType.emailAddress,
+                            validator: viewModel.validateEmail,
+                            onChanged: (_) => viewModel.clearError(),
+                            decoration: const InputDecoration(
+                              labelText: AppStrings.email,
+                              prefixIcon: Icon(Icons.email_outlined),
+                            ),
                           ),
                           const SizedBox(height: 16),
-                          Text(
-                            AppStrings.appName,
-                            style: theme.textTheme.headlineSmall?.copyWith(
-                              fontWeight: FontWeight.w700,
+                          TextFormField(
+                            controller: viewModel.passwordController,
+                            obscureText: viewModel.obscurePassword,
+                            validator: viewModel.validatePassword,
+                            onChanged: (_) => viewModel.clearError(),
+                            decoration: InputDecoration(
+                              labelText: AppStrings.password,
+                              prefixIcon: const Icon(Icons.lock_outline),
+                              suffixIcon: IconButton(
+                                onPressed: viewModel.togglePasswordVisibility,
+                                icon: Icon(
+                                  viewModel.obscurePassword
+                                      ? Icons.visibility_off_outlined
+                                      : Icons.visibility_outlined,
+                                ),
+                              ),
                             ),
                           ),
                           const SizedBox(height: 8),
-                          Text(
-                            AppStrings.loginTitle,
-                            style: theme.textTheme.bodyMedium?.copyWith(
-                              color: Colors.white70,
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: TextButton(
+                              onPressed: () {
+                                Navigator.pushNamed(
+                                  context,
+                                  AppRoutes.forgotPassword,
+                                );
+                              },
+                              child: const Text(AppStrings.forgotPassword),
                             ),
+                          ),
+                          if (viewModel.errorMessage != null) ...[
+                            const SizedBox(height: 8),
+                            Text(
+                              viewModel.errorMessage!,
+                              style: const TextStyle(
+                                color: Colors.red,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                          const SizedBox(height: 8),
+                          ElevatedButton(
+                            onPressed: viewModel.isLoading
+                                ? null
+                                : () async {
+                                    final success = await viewModel.login();
+                                    if (!context.mounted) return;
+                                    if (success) {
+                                      Navigator.pushReplacementNamed(
+                                        context,
+                                        AppRoutes.home,
+                                      );
+                                    }
+                                  },
+                            child: viewModel.isLoading
+                                ? const SizedBox(
+                                    width: 22,
+                                    height: 22,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2.5,
+                                      color: Colors.white,
+                                    ),
+                                  )
+                                : const Text(AppStrings.signIn),
+                          ),
+                          const SizedBox(height: 12),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                AppStrings.noAccount,
+                                style: theme.textTheme.bodyMedium,
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pushNamed(
+                                    context,
+                                    AppRoutes.register,
+                                  );
+                                },
+                                child: const Text(AppStrings.createAccount),
+                              ),
+                            ],
                           ),
                         ],
                       ),
-                      const SizedBox(height: 28),
-                      TextFormField(
-                        controller: _emailController,
-                        keyboardType: TextInputType.emailAddress,
-                        validator: (value) {
-                          final email = value?.trim() ?? '';
-                          if (email.isEmpty) {
-                            return 'Informe seu e-mail';
-                          }
-                          if (!_emailRegex.hasMatch(email)) {
-                            return 'Informe um e-mail valido';
-                          }
-                          return null;
-                        },
-                        decoration: const InputDecoration(
-                          labelText: AppStrings.email,
-                          prefixIcon: Icon(Icons.email_outlined),
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      TextFormField(
-                        controller: _passwordController,
-                        obscureText: _obscurePassword,
-                        validator: (value) {
-                          final password = value?.trim() ?? '';
-                          if (password.isEmpty) {
-                            return 'Informe sua senha';
-                          }
-                          if (password.length < 6) {
-                            return 'A senha deve ter ao menos 6 caracteres';
-                          }
-                          return null;
-                        },
-                        decoration: InputDecoration(
-                          labelText: AppStrings.password,
-                          prefixIcon: const Icon(Icons.lock_outline),
-                          suffixIcon: IconButton(
-                            onPressed: () {
-                              setState(() {
-                                _obscurePassword = !_obscurePassword;
-                              });
-                            },
-                            icon: Icon(
-                              _obscurePassword
-                                  ? Icons.visibility_off_outlined
-                                  : Icons.visibility_outlined,
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: TextButton(
-                          onPressed: () {
-                            Navigator.pushNamed(
-                              context,
-                              AppRoutes.forgotPassword,
-                            );
-                          },
-                          child: const Text(AppStrings.forgotPassword),
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      Builder(
-                        builder: (buttonContext) => ElevatedButton(
-                          onPressed: () {
-                            final isValid = Form.of(buttonContext).validate();
-                            if (isValid) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('Dados de login validados!'),
-                                ),
-                              );
-                            }
-                          },
-                          child: const Text(AppStrings.signIn),
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            AppStrings.noAccount,
-                            style: theme.textTheme.bodyMedium,
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              Navigator.pushNamed(context, AppRoutes.register);
-                            },
-                            child: const Text(AppStrings.createAccount),
-                          ),
-                        ],
-                      ),
-                    ],
+                    ),
                   ),
                 ),
               ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

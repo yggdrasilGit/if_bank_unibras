@@ -2,9 +2,9 @@
 /// Arquivo: register_screen.dart
 /// Projeto: IF Bank Mobile Application
 ///
-/// Descricao:
-/// Tela responsavel por renderizar a interface de cadastro
-/// de novos usuarios.
+/// Descrição:
+/// Tela responsável por renderizar a interface de cadastro
+/// de novos usuários.
 ///
 /// ------------------------------------------------------------
 ///
@@ -12,7 +12,7 @@
 ///
 /// - Construir a UI da tela de cadastro
 /// - Coletar dados basicos do usuario
-/// - Realizar validacoes basicas de formulario
+/// - Realizar validações básicas de formulário
 /// - Exibir feedback simples ao usuario
 ///
 /// ------------------------------------------------------------
@@ -25,9 +25,9 @@
 /// Padrao:
 /// -> MVVM (Model-View-ViewModel)
 ///
-/// Comunicacao:
+/// Comunicação:
 ///
-/// View -> ViewModel (acoes futuras)
+/// View -> ViewModel (ações futuras)
 /// ViewModel -> View (estado futuro)
 ///
 /// ------------------------------------------------------------
@@ -62,26 +62,26 @@
 ///
 /// Gerenciamento de estado:
 ///
-/// - StatefulWidget
-/// - Controllers de formulario
-/// - Flags de visibilidade de senha
+/// - StatelessWidget + Consumer<RegisterViewModel>
+/// - Formulario controlado pelo RegisterViewModel
+/// - Estado de loading/erro no ViewModel
 ///
 /// ------------------------------------------------------------
 ///
 /// Feedback ao usuario:
 ///
 /// - Mensagens de erro por campo
-/// - SnackBar de sucesso em validacao
+/// - SnackBar de sucesso em validação
 ///
 /// ------------------------------------------------------------
 ///
-/// Restricoes:
+/// Restrições:
 ///
-/// Nao deve conter:
+/// Não deve conter:
 ///
-/// - Regras de negocio complexas
+/// - Regras de negócio complexas
 /// - Chamadas diretas de API
-/// - Logica de autenticacao
+/// - Lógica de autenticação
 ///
 /// ------------------------------------------------------------
 ///
@@ -90,220 +90,191 @@
 /// - Caio Cesar Silva Menin
 ///
 /// Criado em: 26/03/2026
-/// Ultima modificacao: 26/03/2026
+/// Última modificação: 26/03/2026
 ///
 /// ------------------------------------------------------------
 ///
-/// Historico:
+/// Histórico:
 ///
-/// Versao | Data       | Autor       | Descricao
-/// 1.0.0  | 26/03/2026 | Caio Menin  | Criacao da tela de cadastro
+/// Versão | Data       | Autor       | Descrição
+/// 1.0.0  | 26/03/2026 | Caio Menin  | Criação da tela de cadastro
 ///
 /// ------------------------------------------------------------
 ///
-/// Licenca:
+/// Licença:
 /// MIT License
 /// ============================================================
 library;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 
 import '../app/routes/app_routes.dart';
 import '../core/constants/app_strings.dart';
 import '../core/widgets/app_top_bar.dart';
+import '../features/auth/presentation/viewmodels/register_viewmodel.dart';
 
-class RegisterScreen extends StatefulWidget {
+class RegisterScreen extends StatelessWidget {
   const RegisterScreen({super.key});
-
-  @override
-  State<RegisterScreen> createState() => _RegisterScreenState();
-}
-
-class _RegisterScreenState extends State<RegisterScreen> {
-  bool _obscurePassword = true;
-  bool _obscureConfirmPassword = true;
-  final _formKey = GlobalKey<FormState>();
-  final _nameController = TextEditingController();
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-  final _confirmPasswordController = TextEditingController();
-  static final RegExp _emailRegex = RegExp(r'^[\w\.-]+@([\w-]+\.)+[\w-]{2,4}$');
-
-  @override
-  void dispose() {
-    _nameController.dispose();
-    _emailController.dispose();
-    _passwordController.dispose();
-    _confirmPasswordController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return Scaffold(
-      appBar: const AppTopBar(
-        title: 'Cadastro',
-        fallbackRoute: AppRoutes.loginScreen,
-      ),
-      body: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 420),
-              child: Padding(
-                padding: const EdgeInsets.all(8),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Column(
+    return Consumer<RegisterViewModel>(
+      builder: (_, viewModel, __) {
+        return Scaffold(
+          appBar: const AppTopBar(
+            title: 'Cadastro',
+            fallbackRoute: AppRoutes.loginScreen,
+          ),
+          body: SafeArea(
+            child: Center(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 16,
+                ),
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 420),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: Form(
+                      key: viewModel.formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          SvgPicture.asset(
-                            'assets/images/logo_if_bank.svg',
-                            height: 64,
+                          Column(
+                            children: [
+                              SvgPicture.asset(
+                                'assets/images/logo_if_bank.svg',
+                                height: 64,
+                              ),
+                              const SizedBox(height: 12),
+                              Text(
+                                AppStrings.appName,
+                                style: theme.textTheme.headlineSmall?.copyWith(
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              const Text(
+                                'Crie sua conta',
+                                style: TextStyle(color: Colors.white70),
+                              ),
+                            ],
                           ),
-                          const SizedBox(height: 12),
-                          Text(
-                            AppStrings.appName,
-                            style: theme.textTheme.headlineSmall?.copyWith(
-                              fontWeight: FontWeight.w700,
+                          const SizedBox(height: 24),
+                          TextFormField(
+                            controller: viewModel.nameController,
+                            validator: viewModel.validateName,
+                            onChanged: (_) => viewModel.clearError(),
+                            decoration: const InputDecoration(
+                              labelText: 'Nome completo',
+                              prefixIcon: Icon(Icons.person_outline),
                             ),
                           ),
-                          const SizedBox(height: 8),
-                          const Text(
-                            'Crie sua conta',
-                            style: TextStyle(color: Colors.white70),
+                          const SizedBox(height: 16),
+                          TextFormField(
+                            controller: viewModel.emailController,
+                            keyboardType: TextInputType.emailAddress,
+                            validator: viewModel.validateEmail,
+                            onChanged: (_) => viewModel.clearError(),
+                            decoration: const InputDecoration(
+                              labelText: AppStrings.email,
+                              prefixIcon: Icon(Icons.email_outlined),
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          TextFormField(
+                            controller: viewModel.passwordController,
+                            obscureText: viewModel.obscurePassword,
+                            validator: viewModel.validatePassword,
+                            onChanged: (_) => viewModel.clearError(),
+                            decoration: InputDecoration(
+                              labelText: AppStrings.password,
+                              prefixIcon: const Icon(Icons.lock_outline),
+                              suffixIcon: IconButton(
+                                onPressed: viewModel.togglePasswordVisibility,
+                                icon: Icon(
+                                  viewModel.obscurePassword
+                                      ? Icons.visibility_off_outlined
+                                      : Icons.visibility_outlined,
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          TextFormField(
+                            controller: viewModel.confirmPasswordController,
+                            obscureText: viewModel.obscureConfirmPassword,
+                            validator: viewModel.validateConfirmPassword,
+                            onChanged: (_) => viewModel.clearError(),
+                            decoration: InputDecoration(
+                              labelText: 'Confirmar senha',
+                              prefixIcon: const Icon(Icons.lock_outline),
+                              suffixIcon: IconButton(
+                                onPressed:
+                                    viewModel.toggleConfirmPasswordVisibility,
+                                icon: Icon(
+                                  viewModel.obscureConfirmPassword
+                                      ? Icons.visibility_off_outlined
+                                      : Icons.visibility_outlined,
+                                ),
+                              ),
+                            ),
+                          ),
+                          if (viewModel.errorMessage != null) ...[
+                            const SizedBox(height: 12),
+                            Text(
+                              viewModel.errorMessage!,
+                              style: const TextStyle(
+                                color: Colors.red,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                          const SizedBox(height: 20),
+                          ElevatedButton(
+                            onPressed: viewModel.isLoading
+                                ? null
+                                : () async {
+                                    final success = await viewModel.register();
+                                    if (!context.mounted) return;
+                                    if (success) {
+                                      final name =
+                                          viewModel.user?.name ?? 'Usuário';
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                          content: Text(
+                                            'Conta criada com sucesso, $name!',
+                                          ),
+                                        ),
+                                      );
+                                    }
+                                  },
+                            child: viewModel.isLoading
+                                ? const SizedBox(
+                                    width: 22,
+                                    height: 22,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2.5,
+                                      color: Colors.white,
+                                    ),
+                                  )
+                                : const Text('Cadastrar'),
                           ),
                         ],
                       ),
-                      const SizedBox(height: 24),
-                      TextFormField(
-                        controller: _nameController,
-                        validator: (value) {
-                          if ((value?.trim().isEmpty ?? true)) {
-                            return 'Informe seu nome completo';
-                          }
-                          return null;
-                        },
-                        decoration: const InputDecoration(
-                          labelText: 'Nome completo',
-                          prefixIcon: Icon(Icons.person_outline),
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      TextFormField(
-                        controller: _emailController,
-                        keyboardType: TextInputType.emailAddress,
-                        validator: (value) {
-                          final email = value?.trim() ?? '';
-                          if (email.isEmpty) {
-                            return 'Informe seu e-mail';
-                          }
-                          if (!_emailRegex.hasMatch(email)) {
-                            return 'Informe um e-mail valido';
-                          }
-                          return null;
-                        },
-                        decoration: const InputDecoration(
-                          labelText: AppStrings.email,
-                          prefixIcon: Icon(Icons.email_outlined),
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      TextFormField(
-                        controller: _passwordController,
-                        obscureText: _obscurePassword,
-                        validator: (value) {
-                          final password = value?.trim() ?? '';
-                          if (password.isEmpty) {
-                            return 'Informe uma senha';
-                          }
-                          if (password.length < 6) {
-                            return 'A senha deve ter ao menos 6 caracteres';
-                          }
-                          return null;
-                        },
-                        decoration: InputDecoration(
-                          labelText: AppStrings.password,
-                          prefixIcon: const Icon(Icons.lock_outline),
-                          suffixIcon: IconButton(
-                            onPressed: () {
-                              setState(() {
-                                _obscurePassword = !_obscurePassword;
-                              });
-                            },
-                            icon: Icon(
-                              _obscurePassword
-                                  ? Icons.visibility_off_outlined
-                                  : Icons.visibility_outlined,
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      TextFormField(
-                        controller: _confirmPasswordController,
-                        obscureText: _obscureConfirmPassword,
-                        validator: (value) {
-                          final confirmPassword = value?.trim() ?? '';
-                          if (confirmPassword.isEmpty) {
-                            return 'Confirme sua senha';
-                          }
-                          if (confirmPassword !=
-                              _passwordController.text.trim()) {
-                            return 'As senhas nao coincidem';
-                          }
-                          return null;
-                        },
-                        decoration: InputDecoration(
-                          labelText: 'Confirmar senha',
-                          prefixIcon: const Icon(Icons.lock_outline),
-                          suffixIcon: IconButton(
-                            onPressed: () {
-                              setState(() {
-                                _obscureConfirmPassword =
-                                    !_obscureConfirmPassword;
-                              });
-                            },
-                            icon: Icon(
-                              _obscureConfirmPassword
-                                  ? Icons.visibility_off_outlined
-                                  : Icons.visibility_outlined,
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-                      Builder(
-                        builder: (buttonContext) => ElevatedButton(
-                          onPressed: () {
-                            final isValid = Form.of(buttonContext).validate();
-                            if (isValid) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text(
-                                    'Cadastro validado com sucesso!',
-                                  ),
-                                ),
-                              );
-                            }
-                          },
-                          child: const Text('Cadastrar'),
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
                 ),
               ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

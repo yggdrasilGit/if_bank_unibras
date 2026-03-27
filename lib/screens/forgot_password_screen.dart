@@ -2,15 +2,15 @@
 /// Arquivo: forgot_password_screen.dart
 /// Projeto: IF Bank Mobile Application
 ///
-/// Descricao:
-/// Tela responsavel por renderizar o fluxo inicial de
-/// recuperacao de senha.
+/// Descrição:
+/// Tela responsável por renderizar o fluxo inicial de
+/// recuperação de senha.
 ///
 /// ------------------------------------------------------------
 ///
 /// Responsabilidades:
 ///
-/// - Construir a UI da tela de recuperacao
+/// - Construir a UI da tela de recuperação
 /// - Coletar e validar e-mail do usuario
 /// - Exibir feedback basico de envio
 ///
@@ -24,9 +24,9 @@
 /// Padrao:
 /// -> MVVM (Model-View-ViewModel)
 ///
-/// Comunicacao:
+/// Comunicação:
 ///
-/// View -> ViewModel (acoes futuras)
+/// View -> ViewModel (ações futuras)
 /// ViewModel -> View (estado futuro)
 ///
 /// ------------------------------------------------------------
@@ -55,30 +55,30 @@
 ///            -> SingleChildScrollView
 ///                 -> Form
 ///                      -> Campo de e-mail
-///                      -> Botao enviar instrucoes
+///                      -> Botão enviar instruções
 ///
 /// ------------------------------------------------------------
 ///
 /// Gerenciamento de estado:
 ///
-/// - StatefulWidget
-/// - Controller de e-mail
-/// - GlobalKey de formulario
+/// - StatelessWidget + Consumer<ForgotPasswordViewModel>
+/// - Formulario controlado pelo ForgotPasswordViewModel
+/// - Estado de loading/erro/sucesso no ViewModel
 ///
 /// ------------------------------------------------------------
 ///
 /// Feedback ao usuario:
 ///
 /// - Mensagens de erro por campo
-/// - SnackBar de confirmacao
+/// - SnackBar de confirmação
 ///
 /// ------------------------------------------------------------
 ///
-/// Restricoes:
+/// Restrições:
 ///
-/// Nao deve conter:
+/// Não deve conter:
 ///
-/// - Regras de negocio complexas
+/// - Regras de negócio complexas
 /// - Chamadas diretas de API
 /// - Acoplamento com camada de dados
 ///
@@ -89,132 +89,140 @@
 /// - Caio Cesar Silva Menin
 ///
 /// Criado em: 26/03/2026
-/// Ultima modificacao: 26/03/2026
+/// Última modificação: 26/03/2026
 ///
 /// ------------------------------------------------------------
 ///
-/// Historico:
+/// Histórico:
 ///
-/// Versao | Data       | Autor       | Descricao
-/// 1.0.0  | 26/03/2026 | Caio Menin  | Criacao da tela de recuperacao
+/// Versão | Data       | Autor       | Descrição
+/// 1.0.0  | 26/03/2026 | Caio Menin  | Criação da tela de recuperação
 ///
 /// ------------------------------------------------------------
 ///
-/// Licenca:
+/// Licença:
 /// MIT License
 /// ============================================================
 library;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 
 import '../app/routes/app_routes.dart';
 import '../core/constants/app_strings.dart';
 import '../core/widgets/app_top_bar.dart';
+import '../features/auth/presentation/viewmodels/forgot_password_viewmodel.dart';
 
-class ForgotPasswordScreen extends StatefulWidget {
+class ForgotPasswordScreen extends StatelessWidget {
   const ForgotPasswordScreen({super.key});
-
-  @override
-  State<ForgotPasswordScreen> createState() => _ForgotPasswordScreenState();
-}
-
-class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
-  final _formKey = GlobalKey<FormState>();
-  final _emailController = TextEditingController();
-  static final RegExp _emailRegex = RegExp(r'^[\w\.-]+@([\w-]+\.)+[\w-]{2,4}$');
-
-  @override
-  void dispose() {
-    _emailController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return Scaffold(
-      appBar: const AppTopBar(
-        title: 'Recuperar senha',
-        fallbackRoute: AppRoutes.loginScreen,
-      ),
-      body: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 420),
-              child: Padding(
-                padding: const EdgeInsets.all(8),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      SvgPicture.asset(
-                        'assets/images/logo_if_bank.svg',
-                        height: 64,
+    return Consumer<ForgotPasswordViewModel>(
+      builder: (_, viewModel, __) {
+        return Scaffold(
+          appBar: const AppTopBar(
+            title: 'Recuperar senha',
+            fallbackRoute: AppRoutes.loginScreen,
+          ),
+          body: SafeArea(
+            child: Center(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 16,
+                ),
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 420),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: Form(
+                      key: viewModel.formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          SvgPicture.asset(
+                            'assets/images/logo_if_bank.svg',
+                            height: 64,
+                          ),
+                          const SizedBox(height: 16),
+                          Text(
+                            'Esqueceu sua senha?',
+                            style: theme.textTheme.headlineSmall?.copyWith(
+                              fontWeight: FontWeight.w700,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 8),
+                          const Text(
+                            'Informe seu e-mail para receber as instruções de recuperação.',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(color: Colors.white70),
+                          ),
+                          const SizedBox(height: 24),
+                          TextFormField(
+                            controller: viewModel.emailController,
+                            keyboardType: TextInputType.emailAddress,
+                            validator: viewModel.validateEmail,
+                            onChanged: (_) => viewModel.clearMessages(),
+                            decoration: const InputDecoration(
+                              labelText: AppStrings.email,
+                              prefixIcon: Icon(Icons.email_outlined),
+                            ),
+                          ),
+                          if (viewModel.errorMessage != null) ...[
+                            const SizedBox(height: 12),
+                            Text(
+                              viewModel.errorMessage!,
+                              style: const TextStyle(
+                                color: Colors.red,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                          const SizedBox(height: 20),
+                          ElevatedButton(
+                            onPressed: viewModel.isLoading
+                                ? null
+                                : () async {
+                                    final success =
+                                        await viewModel.requestReset();
+                                    if (!context.mounted) return;
+                                    if (success) {
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                          content: Text(
+                                            viewModel.successMessage ??
+                                                'Instrucoes enviadas!',
+                                          ),
+                                        ),
+                                      );
+                                    }
+                                  },
+                            child: viewModel.isLoading
+                                ? const SizedBox(
+                                    width: 22,
+                                    height: 22,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2.5,
+                                      color: Colors.white,
+                                    ),
+                                  )
+                                : const Text('Enviar instruções'),
+                          ),
+                        ],
                       ),
-                      const SizedBox(height: 16),
-                      Text(
-                        'Esqueceu sua senha?',
-                        style: theme.textTheme.headlineSmall?.copyWith(
-                          fontWeight: FontWeight.w700,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 8),
-                      const Text(
-                        'Informe seu e-mail para receber as instruções de recuperação.',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.white70),
-                      ),
-                      const SizedBox(height: 24),
-                      TextFormField(
-                        controller: _emailController,
-                        keyboardType: TextInputType.emailAddress,
-                        validator: (value) {
-                          final email = value?.trim() ?? '';
-                          if (email.isEmpty) {
-                            return 'Informe seu e-mail';
-                          }
-                          if (!_emailRegex.hasMatch(email)) {
-                            return 'Informe um e-mail valido';
-                          }
-                          return null;
-                        },
-                        decoration: const InputDecoration(
-                          labelText: AppStrings.email,
-                          prefixIcon: Icon(Icons.email_outlined),
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-                      Builder(
-                        builder: (buttonContext) => ElevatedButton(
-                          onPressed: () {
-                            final isValid = Form.of(buttonContext).validate();
-                            if (isValid) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text(
-                                    'Instruções de recuperação enviadas!',
-                                  ),
-                                ),
-                              );
-                            }
-                          },
-                          child: const Text('Enviar instruções'),
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
                 ),
               ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

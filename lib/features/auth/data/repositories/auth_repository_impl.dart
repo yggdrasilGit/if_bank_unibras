@@ -52,7 +52,9 @@
 ///
 /// AuthRepositoryImpl
 ///  ├── remoteDataSource
-///  └── login()
+///  ├── login()
+///  ├── register()
+///  └── requestPasswordReset()
 ///
 /// ------------------------------------------------------------
 ///
@@ -63,6 +65,7 @@
 /// - Chama o DataSource
 /// - Retorna Result.success em caso de sucesso
 /// - Retorna Result.failure em caso de erro
+/// - Implementa tambem cadastro e recuperacao de senha
 ///
 /// ------------------------------------------------------------
 ///
@@ -122,17 +125,19 @@
 /// ------------------------------------------------------------
 ///
 /// Autor(es):
-/// - Seu Nome
+/// - Francismar Alves Martins Junior
+/// - Caio Cesar Silva Menin
 ///
 /// Criado em: 17/03/2026
-/// Última modificação: 17/03/2026
+/// Última modificação: 26/03/2026
 ///
 /// ------------------------------------------------------------
 ///
 /// Histórico de versões:
 ///
 /// Versão | Data       | Autor       | Descrição
-/// 1.0.0  | 17/03/2026 | Seu Nome    | Implementação do repositório de autenticação
+/// 1.0.0  | 17/03/2026 | Francismar  | Implementação do repositório de autenticação
+/// 1.1.0  | 26/03/2026 | Caio Menin  | Inclusão dos fluxos de cadastro e recuperação
 ///
 /// ------------------------------------------------------------
 ///
@@ -144,7 +149,6 @@ library;
 import 'package:if_bank/core/results/result.dart';
 import 'package:if_bank/features/auth/data/repositories/auth_repository.dart';
 
-
 import '../../domain/entities/user_entity.dart';
 import '../datasources/auth_remote_datasource.dart';
 import '../models/login_request_model.dart';
@@ -155,9 +159,7 @@ class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDataSource remoteDataSource;
 
   /// Construtor com injeção de dependência
-  AuthRepositoryImpl({
-    required this.remoteDataSource,
-  });
+  AuthRepositoryImpl({required this.remoteDataSource});
 
   /// Realiza o login do usuário
   ///
@@ -172,19 +174,43 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       /// Chamada ao datasource com conversão para model
       final user = await remoteDataSource.login(
-        LoginRequestModel(
-          email: email,
-          password: password,
-        ),
+        LoginRequestModel(email: email, password: password),
       );
 
       /// Retorno de sucesso
       return Result.success(user);
     } catch (e) {
       /// Tratamento de erro e padronização da mensagem
-      return Result.failure(
-        e.toString().replaceFirst('Exception: ', ''),
+      return Result.failure(e.toString().replaceFirst('Exception: ', ''));
+    }
+  }
+
+  @override
+  Future<Result<UserEntity>> register({
+    required String name,
+    required String email,
+    required String password,
+  }) async {
+    try {
+      final user = await remoteDataSource.register(
+        name: name,
+        email: email,
+        password: password,
       );
+
+      return Result.success(user);
+    } catch (e) {
+      return Result.failure(e.toString().replaceFirst('Exception: ', ''));
+    }
+  }
+
+  @override
+  Future<Result<String>> requestPasswordReset({required String email}) async {
+    try {
+      await remoteDataSource.requestPasswordReset(email: email);
+      return Result.success('Instruções enviadas com sucesso');
+    } catch (e) {
+      return Result.failure(e.toString().replaceFirst('Exception: ', ''));
     }
   }
 }

@@ -48,7 +48,9 @@
 /// Estrutura:
 ///
 /// AuthRemoteDataSource
-///  └── login()
+///  ├── login()
+///  ├── register()
+///  └── requestPasswordReset()
 ///
 /// ------------------------------------------------------------
 ///
@@ -59,6 +61,7 @@
 /// - Valida credenciais mockadas
 /// - Retorna UserEntity em caso de sucesso
 /// - Lança Exception em caso de erro
+/// - Simula também cadastro e recuperação de senha
 ///
 /// ------------------------------------------------------------
 ///
@@ -66,6 +69,9 @@
 ///
 /// Email: teste@ifbank.com
 /// Senha: 123456
+/// Fluxos extras:
+/// - Cadastro com persistencia em memoria
+/// - Recuperação de senha por e-mail cadastrado
 ///
 /// ------------------------------------------------------------
 ///
@@ -110,7 +116,7 @@
 /// - Francismar Alves Martins Junior
 ///
 /// Criado em: 18/03/2026
-/// Última modificação: 18/03/2026
+/// Última modificação: 26/03/2026
 ///
 /// ------------------------------------------------------------
 ///
@@ -118,6 +124,7 @@
 ///
 /// Versão | Data       | Autor       | Descrição
 /// 1.0.0  | 18/03/2026 | Francismar  | Implementação mock do login remoto
+/// 1.1.0  | 26/03/2026 | Caio Menin  | Inclusão de mock para cadastro e recuperação
 ///
 /// ------------------------------------------------------------
 ///
@@ -131,6 +138,10 @@ import '../models/login_request_model.dart';
 
 /// DataSource responsável por operações remotas de autenticação.
 class AuthRemoteDataSource {
+  final Map<String, ({String id, String name, String password})> _users = {
+    'teste@ifbank.com': (id: '1', name: 'Usuário IF Bank', password: '123456'),
+  };
+
   /// Realiza o login do usuário
   ///
   /// Retorna:
@@ -140,19 +151,44 @@ class AuthRemoteDataSource {
   /// - Exception em caso de falha
   Future<UserEntity> login(LoginRequestModel request) async {
     /// Simula delay de requisição HTTP
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(milliseconds: 900));
+
+    final email = request.email.trim().toLowerCase();
+    final user = _users[email];
 
     /// Validação mock de credenciais
-    if (request.email == 'teste@ifbank.com' &&
-        request.password == '123456') {
-      return const UserEntity(
-        id: '1',
-        name: 'Usuário IF Bank',
-        email: 'teste@ifbank.com',
-      );
+    if (user != null && user.password == request.password) {
+      return UserEntity(id: user.id, name: user.name, email: email);
     }
 
     /// Erro de autenticação
     throw Exception('Credenciais inválidas');
+  }
+
+  Future<UserEntity> register({
+    required String name,
+    required String email,
+    required String password,
+  }) async {
+    await Future.delayed(const Duration(milliseconds: 900));
+
+    final normalizedEmail = email.trim().toLowerCase();
+    if (_users.containsKey(normalizedEmail)) {
+      throw Exception('E-mail já cadastrado');
+    }
+
+    final id = DateTime.now().millisecondsSinceEpoch.toString();
+    _users[normalizedEmail] = (id: id, name: name.trim(), password: password);
+
+    return UserEntity(id: id, name: name.trim(), email: normalizedEmail);
+  }
+
+  Future<void> requestPasswordReset({required String email}) async {
+    await Future.delayed(const Duration(milliseconds: 700));
+
+    final normalizedEmail = email.trim().toLowerCase();
+    if (!_users.containsKey(normalizedEmail)) {
+      throw Exception('E-mail não encontrado');
+    }
   }
 }

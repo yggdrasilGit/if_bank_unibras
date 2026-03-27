@@ -82,7 +82,7 @@
 /// Historico:
 ///
 /// Versao | Data       | Autor       | Descricao
-/// 1.0.0  | 26/03/2026 | Francismar  | Criacao do AppBar reutilizavel
+/// 1.0.0  | 26/03/2026 | Caio Menin  | Criacao do AppBar reutilizavel
 ///
 /// ------------------------------------------------------------
 ///

@@ -1,49 +1,43 @@
 /// ============================================================
-/// Arquivo: auth_repository.dart
+/// Arquivo: request_password_reset_usercase.dart
 /// Projeto: IF Bank Mobile Application
 ///
 /// Descrição:
-/// Contrato da camada de dados para operações de autenticação.
-/// Define as assinaturas de login, cadastro e recuperação de senha.
+/// UseCase responsável por iniciar o fluxo de recuperação de senha.
+/// Encapsula a chamada ao repositório para envio das instruções.
 ///
 /// ------------------------------------------------------------
 ///
 /// Responsabilidades:
 ///
-/// - Definir contrato de autenticação
-/// - Garantir desacoplamento entre domínio e implementação
-/// - Padronizar retornos com Result
+/// - Executar solicitação de recuperação de senha
+/// - Encapsular regra de aplicação
+/// - Retornar resultado padronizado
 ///
 /// ------------------------------------------------------------
 ///
 /// Arquitetura:
 ///
 /// Camada:
-/// -> Data Layer (Contract)
+/// -> Domain Layer
 ///
 /// Papel:
-/// -> Repository Interface
-///
-/// ------------------------------------------------------------
-///
-/// Dependencias externas:
-///
-/// - core/results/result.dart
+/// -> UseCase
 ///
 /// ------------------------------------------------------------
 ///
 /// Dependencias internas:
 ///
-/// - UserEntity
+/// - AuthRepository
+/// - Result
 ///
 /// ------------------------------------------------------------
 ///
 /// Estrutura:
 ///
-/// AuthRepository
-///  -> login()
-///  -> register()
-///  -> requestPasswordReset()
+/// RequestPasswordResetUseCase
+///  -> repository
+///  -> call(email)
 ///
 /// ------------------------------------------------------------
 ///
@@ -51,9 +45,9 @@
 ///
 /// Não deve conter:
 ///
-/// - Implementação concreta
-/// - Regra de negócio de UI
-/// - Dependência de widget
+/// - Widgets
+/// - Estado de UI
+/// - Dependência de Flutter
 ///
 /// ------------------------------------------------------------
 ///
@@ -61,7 +55,7 @@
 /// - Francismar Alves Martins Junior
 /// - Caio Cesar Silva Menin
 ///
-/// Criado em: 18/03/2026
+/// Criado em: 26/03/2026
 /// Última modificação: 26/03/2026
 ///
 /// ------------------------------------------------------------
@@ -69,8 +63,7 @@
 /// Histórico:
 ///
 /// Versão | Data       | Autor       | Descrição
-/// 1.0.0  | 18/03/2026 | Francismar  | Contrato inicial com login
-/// 1.1.0  | 26/03/2026 | Caio Menin  | Inclusão de cadastro e recuperação
+/// 1.0.0  | 26/03/2026 | Caio Menin  | Criação do usecase de recuperação
 ///
 /// ------------------------------------------------------------
 ///
@@ -78,22 +71,21 @@
 /// MIT License
 /// ============================================================
 
+library;
+
 import 'package:if_bank/core/results/result.dart';
-import 'package:if_bank/features/auth/domain/entities/user_entity.dart';
+import 'package:if_bank/features/auth/data/repositories/auth_repository.dart';
 
-abstract class AuthRepository {
-  Future<Result<UserEntity>> login({
-    required String email,
-    required String password,
+class RequestPasswordResetUseCase {
+  final AuthRepository repository;
+
+  RequestPasswordResetUseCase({
+    required this.repository,
   });
 
-  Future<Result<UserEntity>> register({
-    required String name,
+  Future<Result<String>> call({
     required String email,
-    required String password,
-  });
-
-  Future<Result<String>> requestPasswordReset({
-    required String email,
-  });
+  }) {
+    return repository.requestPasswordReset(email: email);
+  }
 }

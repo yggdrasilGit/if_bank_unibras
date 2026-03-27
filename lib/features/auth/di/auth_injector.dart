@@ -91,10 +91,11 @@
 /// ------------------------------------------------------------
 ///
 /// Autor(es):
-/// - Seu Nome
+/// - Francismar Alves Martins Junior
+/// - Caio Cesar Silva Menin
 ///
 /// Criado em: 18/03/2026
-/// Última modificação: 18/03/2026
+/// Última modificação: 26/03/2026
 ///
 /// ------------------------------------------------------------
 ///
@@ -102,6 +103,7 @@
 ///
 /// Versão | Data       | Autor       | Descrição
 /// 1.0.0  | 18/03/2026 | Francismar  | Implementação inicial do módulo de DI
+/// 1.1.0  | 26/03/2026 | Caio Menin  | Registro dos fluxos de cadastro e recuperação
 ///
 /// ------------------------------------------------------------
 ///
@@ -112,59 +114,79 @@ library;
 
 import 'package:if_bank/features/auth/data/repositories/auth_repository.dart';
 import 'package:if_bank/features/auth/domain/usercase/login_usercase.dart';
+import 'package:if_bank/features/auth/domain/usercase/register_usercase.dart';
+import 'package:if_bank/features/auth/domain/usercase/request_password_reset_usercase.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
 import '../../../../core/services/validator_service.dart';
 import '../data/datasources/auth_remote_datasource.dart';
 import '../data/repositories/auth_repository_impl.dart';
+import '../presentation/viewmodels/forgot_password_viewmodel.dart';
 import '../presentation/viewmodels/login_viewmodel.dart';
+import '../presentation/viewmodels/register_viewmodel.dart';
 
 /// Módulo de injeção de dependências da feature Auth.
 class AuthInjector {
   /// Lista de providers utilizados no MultiProvider global
   static List<SingleChildWidget> get providers => [
-        
-        /// ============================
-        /// Services
-        /// ============================
-        Provider<ValidatorService>(
-          create: (_) => ValidatorService(),
-        ),
+    /// ============================
+    /// Services
+    /// ============================
+    Provider<ValidatorService>(create: (_) => ValidatorService()),
 
-        /// ============================
-        /// DataSources
-        /// ============================
-        Provider<AuthRemoteDataSource>(
-          create: (_) => AuthRemoteDataSource(),
-        ),
+    /// ============================
+    /// DataSources
+    /// ============================
+    Provider<AuthRemoteDataSource>(create: (_) => AuthRemoteDataSource()),
 
-        /// ============================
-        /// Repositories
-        /// ============================
-        Provider<AuthRepository>(
-          create: (context) => AuthRepositoryImpl(
-            remoteDataSource: context.read<AuthRemoteDataSource>(),
-          ),
-        ),
+    /// ============================
+    /// Repositories
+    /// ============================
+    Provider<AuthRepository>(
+      create: (context) => AuthRepositoryImpl(
+        remoteDataSource: context.read<AuthRemoteDataSource>(),
+      ),
+    ),
 
-        /// ============================
-        /// UseCases
-        /// ============================
-        Provider<LoginUseCase>(
-          create: (context) => LoginUseCase(
-            repository: context.read<AuthRepository>(),
-          ),
-        ),
+    /// ============================
+    /// UseCases
+    /// ============================
+    Provider<LoginUseCase>(
+      create: (context) =>
+          LoginUseCase(repository: context.read<AuthRepository>()),
+    ),
+    Provider<RegisterUseCase>(
+      create: (context) =>
+          RegisterUseCase(repository: context.read<AuthRepository>()),
+    ),
+    Provider<RequestPasswordResetUseCase>(
+      create: (context) => RequestPasswordResetUseCase(
+        repository: context.read<AuthRepository>(),
+      ),
+    ),
 
-        /// ============================
-        /// ViewModels
-        /// ============================
-        ChangeNotifierProvider<LoginViewModel>(
-          create: (context) => LoginViewModel(
-            loginUseCase: context.read<LoginUseCase>(),
-            validatorService: context.read<ValidatorService>(),
-          ),
-        ),
-      ];
+    /// ============================
+    /// ViewModels
+    /// ============================
+    ChangeNotifierProvider<LoginViewModel>(
+      create: (context) => LoginViewModel(
+        loginUseCase: context.read<LoginUseCase>(),
+        validatorService: context.read<ValidatorService>(),
+      ),
+    ),
+    ChangeNotifierProvider<RegisterViewModel>(
+      create: (context) => RegisterViewModel(
+        registerUseCase: context.read<RegisterUseCase>(),
+        validatorService: context.read<ValidatorService>(),
+      ),
+    ),
+    ChangeNotifierProvider<ForgotPasswordViewModel>(
+      create: (context) => ForgotPasswordViewModel(
+        requestPasswordResetUseCase: context
+            .read<RequestPasswordResetUseCase>(),
+        validatorService: context.read<ValidatorService>(),
+      ),
+    ),
+  ];
 }
