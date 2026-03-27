@@ -1,6 +1,110 @@
-
-// obs esta faltando colocar as informacoes do autor 
-
+/// ============================================================
+/// Arquivo: register_screen.dart
+/// Projeto: IF Bank Mobile Application
+///
+/// Descricao:
+/// Tela responsavel por renderizar a interface de cadastro
+/// de novos usuarios.
+///
+/// ------------------------------------------------------------
+///
+/// Responsabilidades:
+///
+/// - Construir a UI da tela de cadastro
+/// - Coletar dados basicos do usuario
+/// - Realizar validacoes basicas de formulario
+/// - Exibir feedback simples ao usuario
+///
+/// ------------------------------------------------------------
+///
+/// Arquitetura:
+///
+/// Camada:
+/// -> Presentation (View)
+///
+/// Padrao:
+/// -> MVVM (Model-View-ViewModel)
+///
+/// Comunicacao:
+///
+/// View -> ViewModel (acoes futuras)
+/// ViewModel -> View (estado futuro)
+///
+/// ------------------------------------------------------------
+///
+/// Dependencias externas:
+///
+/// - flutter/material.dart
+/// - flutter_svg/svg.dart
+///
+/// ------------------------------------------------------------
+///
+/// Dependencias internas:
+///
+/// - AppRoutes
+/// - AppStrings
+/// - AppTopBar
+///
+/// ------------------------------------------------------------
+///
+/// Estrutura da UI:
+///
+/// RegisterScreen
+///  -> Scaffold
+///       -> AppTopBar
+///       -> SafeArea
+///            -> SingleChildScrollView
+///                 -> Form
+///                      -> Campos de cadastro
+///                      -> Botao cadastrar
+///
+/// ------------------------------------------------------------
+///
+/// Gerenciamento de estado:
+///
+/// - StatefulWidget
+/// - Controllers de formulario
+/// - Flags de visibilidade de senha
+///
+/// ------------------------------------------------------------
+///
+/// Feedback ao usuario:
+///
+/// - Mensagens de erro por campo
+/// - SnackBar de sucesso em validacao
+///
+/// ------------------------------------------------------------
+///
+/// Restricoes:
+///
+/// Nao deve conter:
+///
+/// - Regras de negocio complexas
+/// - Chamadas diretas de API
+/// - Logica de autenticacao
+///
+/// ------------------------------------------------------------
+///
+/// Autor(es):
+/// - Francismar Alves Martins Junior
+/// - Caio Cesar Silva Menin
+///
+/// Criado em: 26/03/2026
+/// Ultima modificacao: 26/03/2026
+///
+/// ------------------------------------------------------------
+///
+/// Historico:
+///
+/// Versao | Data       | Autor       | Descricao
+/// 1.0.0  | 26/03/2026 | Caio Menin  | Criacao da tela de cadastro
+///
+/// ------------------------------------------------------------
+///
+/// Licenca:
+/// MIT License
+/// ============================================================
+library;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';

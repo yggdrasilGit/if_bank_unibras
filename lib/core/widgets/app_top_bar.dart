@@ -1,3 +1,96 @@
+/// ============================================================
+/// Arquivo: app_top_bar.dart
+/// Projeto: IF Bank Mobile Application
+///
+/// Descricao:
+/// Widget reutilizavel de AppBar para padronizar cabecalho
+/// nas telas da aplicacao.
+///
+/// ------------------------------------------------------------
+///
+/// Responsabilidades:
+///
+/// - Exibir titulo da tela
+/// - Exibir botao de voltar opcional
+/// - Aplicar estilo consistente de AppBar
+/// - Permitir fallback de rota quando nao houver pop
+///
+/// ------------------------------------------------------------
+///
+/// Arquitetura:
+///
+/// Camada:
+/// -> Core / Shared UI Components
+///
+/// Tipo:
+/// -> Reusable Widget (Presentation Support)
+///
+/// ------------------------------------------------------------
+///
+/// Dependencias externas:
+///
+/// - flutter/material.dart
+///
+/// ------------------------------------------------------------
+///
+/// Estrutura:
+///
+/// AppTopBar
+///  -> AppBar
+///       -> Leading (opcional)
+///       -> Title
+///       -> Actions (opcional)
+///
+/// ------------------------------------------------------------
+///
+/// Fluxo:
+///
+/// - Se showBackButton for true:
+///   - tenta Navigator.pop()
+///   - se nao houver tela anterior e fallbackRoute existir:
+///     - usa Navigator.pushReplacementNamed()
+///
+/// ------------------------------------------------------------
+///
+/// Boas praticas:
+///
+/// - Reutilizacao de UI
+/// - Consistencia visual
+/// - Baixo acoplamento entre telas
+///
+/// ------------------------------------------------------------
+///
+/// Restricoes:
+///
+/// Nao deve conter:
+///
+/// - Regra de negocio
+/// - Chamada de API
+/// - Estado de dominio
+///
+/// ------------------------------------------------------------
+///
+/// Autor(es):
+/// - Francismar Alves Martins Junior
+/// - Caio Cesar Silva Menin
+///
+/// Criado em: 26/03/2026
+/// Ultima modificacao: 26/03/2026
+///
+/// ------------------------------------------------------------
+///
+/// Historico:
+///
+/// Versao | Data       | Autor       | Descricao
+/// 1.0.0  | 26/03/2026 | Francismar  | Criacao do AppBar reutilizavel
+///
+/// ------------------------------------------------------------
+///
+/// Licenca:
+/// MIT License
+/// ============================================================
+library;
+
 import 'package:flutter/material.dart';
 
 class AppTopBar extends StatelessWidget implements PreferredSizeWidget {

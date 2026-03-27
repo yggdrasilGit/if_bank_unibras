@@ -1,3 +1,110 @@
+/// ============================================================
+/// Arquivo: forgot_password_screen.dart
+/// Projeto: IF Bank Mobile Application
+///
+/// Descricao:
+/// Tela responsavel por renderizar o fluxo inicial de
+/// recuperacao de senha.
+///
+/// ------------------------------------------------------------
+///
+/// Responsabilidades:
+///
+/// - Construir a UI da tela de recuperacao
+/// - Coletar e validar e-mail do usuario
+/// - Exibir feedback basico de envio
+///
+/// ------------------------------------------------------------
+///
+/// Arquitetura:
+///
+/// Camada:
+/// -> Presentation (View)
+///
+/// Padrao:
+/// -> MVVM (Model-View-ViewModel)
+///
+/// Comunicacao:
+///
+/// View -> ViewModel (acoes futuras)
+/// ViewModel -> View (estado futuro)
+///
+/// ------------------------------------------------------------
+///
+/// Dependencias externas:
+///
+/// - flutter/material.dart
+/// - flutter_svg/svg.dart
+///
+/// ------------------------------------------------------------
+///
+/// Dependencias internas:
+///
+/// - AppRoutes
+/// - AppStrings
+/// - AppTopBar
+///
+/// ------------------------------------------------------------
+///
+/// Estrutura da UI:
+///
+/// ForgotPasswordScreen
+///  -> Scaffold
+///       -> AppTopBar
+///       -> SafeArea
+///            -> SingleChildScrollView
+///                 -> Form
+///                      -> Campo de e-mail
+///                      -> Botao enviar instrucoes
+///
+/// ------------------------------------------------------------
+///
+/// Gerenciamento de estado:
+///
+/// - StatefulWidget
+/// - Controller de e-mail
+/// - GlobalKey de formulario
+///
+/// ------------------------------------------------------------
+///
+/// Feedback ao usuario:
+///
+/// - Mensagens de erro por campo
+/// - SnackBar de confirmacao
+///
+/// ------------------------------------------------------------
+///
+/// Restricoes:
+///
+/// Nao deve conter:
+///
+/// - Regras de negocio complexas
+/// - Chamadas diretas de API
+/// - Acoplamento com camada de dados
+///
+/// ------------------------------------------------------------
+///
+/// Autor(es):
+/// - Francismar Alves Martins Junior
+/// - Caio Cesar Silva Menin
+///
+/// Criado em: 26/03/2026
+/// Ultima modificacao: 26/03/2026
+///
+/// ------------------------------------------------------------
+///
+/// Historico:
+///
+/// Versao | Data       | Autor       | Descricao
+/// 1.0.0  | 26/03/2026 | Caio Menin  | Criacao da tela de recuperacao
+///
+/// ------------------------------------------------------------
+///
+/// Licenca:
+/// MIT License
+/// ============================================================
+library;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
