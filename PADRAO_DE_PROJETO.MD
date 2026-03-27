@@ -319,7 +319,26 @@ class AppStrings {
 
 ---
 
-# 6) `core/result/result.dart`
+## 8. Tratamento de Resultados: Análise da classe `Result<T>`
+
+A classe `Result<T>` representa uma abstração genérica amplamente utilizada em arquiteturas modernas para o tratamento padronizado de operações que podem resultar em sucesso ou falha. Essa abordagem substitui, em muitos casos, o uso direto de exceções (*exceptions*), promovendo maior controle sobre o fluxo da aplicação e contribuindo para a previsibilidade do comportamento do sistema.
+
+No contexto da Clean Architecture, essa estrutura desempenha um papel fundamental na comunicação entre camadas, especialmente entre a camada de domínio (*domain*) e a camada de apresentação (*presentation*). Ao encapsular tanto o resultado positivo quanto o erro em uma única entidade, a classe `Result` evita a propagação descontrolada de exceções e estabelece um contrato explícito de retorno.
+
+A classe é definida como genérica (`Result<T>`), o que permite sua reutilização para diferentes tipos de dados. O atributo `data` representa o valor retornado em caso de sucesso, enquanto o atributo `error` armazena a mensagem de erro em caso de falha. Ambos são opcionais (`nullable`), mas a lógica interna garante que apenas um deles será relevante em cada instância.
+
+O construtor privado `Result._` impede a criação direta de objetos da classe, forçando o uso dos métodos de fábrica (`factory constructors`). Essa decisão reforça o controle sobre a criação de instâncias, assegurando que os objetos sejam sempre construídos de forma consistente. Os métodos `Result.success` e `Result.failure` representam, respectivamente, os cenários de sucesso e erro, tornando o código mais expressivo e semântico.
+
+Além disso, a classe fornece propriedades auxiliares (`getters`) como `isSuccess` e `isFailure`, que simplificam a verificação do estado do resultado. Essa abordagem melhora a legibilidade do código e reduz a necessidade de verificações mais complexas, como comparações diretas com valores nulos.
+
+Do ponto de vista teórico, essa estratégia está alinhada com conceitos da programação funcional, como o uso de tipos *Either* ou *Result*, frequentemente adotados para representar operações que podem falhar. Segundo Martin Fowler, a explicitação de fluxos de erro no próprio tipo de retorno contribui para sistemas mais robustos e menos propensos a falhas inesperadas.
+
+No contexto prático da aplicação, a utilização da classe `Result` permite que o ViewModel trate respostas de forma clara e previsível. Por exemplo, após a execução de um caso de uso, o ViewModel pode verificar se a operação foi bem-sucedida e atualizar o estado da interface ou exibir mensagens de erro conforme necessário, sem depender de blocos `try-catch` espalhados pelo código.
+
+Adicionalmente, essa abordagem facilita a implementação de testes unitários, uma vez que os cenários de sucesso e falha podem ser simulados de forma explícita, sem a necessidade de lançar exceções reais.
+
+Em síntese, a classe `Result<T>` constitui uma solução elegante e eficiente para o tratamento de retornos em aplicações estruturadas, promovendo clareza, segurança e consistência no fluxo de dados entre camadas. Sua adoção reforça boas práticas de engenharia de software e contribui significativamente para a qualidade e manutenibilidade do sistema.
+
 
 ```dart
 class Result<T> {
@@ -342,7 +361,26 @@ class Result<T> {
 
 ---
 
-# 7) `core/services/validator_service.dart`
+## 9. Validação de Dados: Análise da classe `ValidatorService`
+
+A validação de dados de entrada constitui uma etapa essencial no desenvolvimento de aplicações, especialmente aquelas que envolvem interação direta com o usuário, como formulários de autenticação. A classe `ValidatorService` foi projetada com o objetivo de centralizar e padronizar as regras de validação, promovendo reutilização, consistência e separação de responsabilidades dentro da arquitetura do sistema.
+
+No contexto da Clean Architecture, essa classe está posicionada na camada `core`, o que indica que suas funcionalidades são genéricas e independentes de qualquer regra de negócio específica. Essa decisão é estratégica, pois permite que os métodos de validação sejam utilizados por diferentes partes da aplicação sem acoplamento com componentes da camada de apresentação ou domínio.
+
+A classe apresenta dois métodos principais: `validateEmail` e `validatePassword`, ambos responsáveis por validar entradas do usuário e retornar mensagens de erro quando necessário. O retorno do tipo `String?` segue uma convenção amplamente utilizada em formulários Flutter, onde `null` indica que o valor é válido, enquanto uma string representa uma mensagem de erro a ser exibida na interface.
+
+O método `validateEmail` realiza inicialmente uma verificação de nulidade e de conteúdo vazio, garantindo que o campo não seja submetido em branco. Em seguida, utiliza uma expressão regular (*regular expression*) para verificar se o valor informado corresponde a um formato básico de e-mail. O uso de expressões regulares permite uma validação eficiente e flexível, sendo uma técnica consolidada para verificação de padrões textuais.
+
+Por sua vez, o método `validatePassword` também inicia com uma verificação de nulidade ou vazio, assegurando que o usuário forneça um valor. Posteriormente, aplica uma regra de tamanho mínimo (seis caracteres), que representa um critério básico de segurança. Embora simples, essa validação pode ser facilmente expandida para incluir requisitos adicionais, como uso de caracteres especiais, letras maiúsculas e números.
+
+Do ponto de vista arquitetural, a extração dessas validações para um serviço dedicado evita a duplicação de código na camada de apresentação (ViewModel ou View) e contribui para o princípio da **responsabilidade única (Single Responsibility Principle)**, conforme definido por Robert C. Martin. Cada classe deve possuir um único motivo para mudança, e, nesse caso, o `ValidatorService` é responsável exclusivamente pelas regras de validação.
+
+Além disso, essa abordagem facilita a testabilidade do sistema, uma vez que as funções de validação podem ser testadas de forma isolada, garantindo que diferentes cenários de entrada sejam corretamente tratados. Isso contribui para a robustez da aplicação e para a prevenção de erros em produção.
+
+Outro aspecto relevante é a melhoria da experiência do usuário. Ao fornecer mensagens de erro claras e específicas, a aplicação orienta o usuário na correção de dados inválidos, reduzindo frustrações e aumentando a usabilidade.
+
+Em síntese, a classe `ValidatorService` representa uma solução eficiente e bem estruturada para o tratamento de validações em aplicações modernas. Sua centralização, simplicidade e aderência a princípios fundamentais da engenharia de software contribuem significativamente para a organização, reutilização e qualidade do código.
+
 
 ```dart
 class ValidatorService {
@@ -375,7 +413,24 @@ class ValidatorService {
 
 ---
 
-# 8) `features/auth/domain/entities/user_entity.dart`
+## 10. Modelagem de Entidades de Domínio: Análise da classe `UserEntity`
+
+A classe `UserEntity` representa um elemento fundamental dentro da camada de domínio (*domain*) da aplicação, sendo responsável por modelar um conceito central do negócio: o usuário. No contexto da Clean Architecture, entidades são objetos que encapsulam dados e, eventualmente, comportamentos essenciais do sistema, mantendo-se independentes de frameworks, bibliotecas externas ou detalhes de implementação.
+
+A estrutura da classe é simples e objetiva, composta por três atributos imutáveis: `id`, `name` e `email`. Esses campos representam informações essenciais para a identificação e caracterização de um usuário dentro do sistema. A utilização de tipos primitivos (`String`) e a ausência de dependências externas reforçam a natureza pura da entidade, tornando-a altamente reutilizável e portável.
+
+Um aspecto relevante da implementação é o uso do construtor `const`, que permite a criação de instâncias imutáveis em tempo de compilação. Essa característica está alinhada com boas práticas de programação, pois garante que os dados da entidade não sejam alterados após sua criação, promovendo maior segurança e previsibilidade no fluxo da aplicação.
+
+A imutabilidade das entidades é um conceito amplamente defendido na engenharia de software moderna, especialmente em arquiteturas orientadas a domínio. Segundo Eric Evans, entidades devem possuir identidade própria e consistência ao longo do tempo, sendo fundamentais para a representação fiel dos conceitos do negócio.
+
+No caso da `UserEntity`, o atributo `id` desempenha o papel de identificador único, distinguindo cada instância de usuário, mesmo que outros atributos possam coincidir. Essa característica é essencial para operações como autenticação, persistência e recuperação de dados.
+
+Do ponto de vista arquitetural, a entidade não possui conhecimento sobre como os dados são obtidos, armazenados ou exibidos. Ela não depende de APIs, banco de dados ou interface gráfica, o que garante sua independência em relação às demais camadas do sistema. Essa separação está diretamente relacionada ao princípio da inversão de dependência, proposto por Robert C. Martin, no qual as regras de negócio devem ser isoladas de detalhes externos.
+
+Além disso, a simplicidade da entidade facilita a realização de testes unitários e a evolução do sistema. Caso novos atributos ou comportamentos sejam necessários, a classe pode ser expandida sem impacto direto nas camadas externas, desde que o contrato seja preservado.
+
+Em síntese, a classe `UserEntity` exemplifica a aplicação correta dos princípios da modelagem de domínio, ao representar de forma clara, imutável e independente um conceito essencial do sistema. Sua estrutura contribui para a organização da arquitetura, reforçando a separação de responsabilidades e a construção de um código mais robusto e sustentável.
+
 
 ```dart
 class UserEntity {
@@ -393,7 +448,26 @@ class UserEntity {
 
 ---
 
-# 9) `features/auth/data/models/login_request_model.dart`
+## 11. Modelos de Dados e Transferência de Informação: Análise da classe `LoginRequestModel`
+
+A classe `LoginRequestModel` insere-se na camada de dados (*data*) da arquitetura e desempenha um papel fundamental na representação e transferência de informações entre a aplicação e fontes externas, como APIs ou serviços remotos. Diferentemente das entidades de domínio, que representam conceitos puros do negócio, os *models* são estruturas adaptadas às necessidades de comunicação e serialização de dados.
+
+No caso em análise, a classe encapsula os dados necessários para a realização de uma operação de autenticação, especificamente o endereço de e-mail e a senha do usuário. Esses atributos são definidos como obrigatórios (`required`), o que garante que nenhuma instância do modelo seja criada sem as informações mínimas necessárias para a execução da requisição.
+
+A presença do construtor `const` segue boas práticas de imutabilidade, assegurando que os valores atribuídos ao objeto não sejam modificados após sua criação. Essa característica contribui para a previsibilidade do sistema e reduz a ocorrência de efeitos colaterais indesejados.
+
+Um dos elementos centrais da classe é o método `toMap()`, responsável por converter o objeto em uma estrutura do tipo `Map<String, dynamic>`. Essa conversão é essencial para o envio de dados em formatos compatíveis com protocolos de comunicação, como JSON, amplamente utilizados em APIs REST. Ao transformar os atributos em pares chave-valor, o modelo torna-se adequado para serialização e transmissão pela rede.
+
+Do ponto de vista arquitetural, a existência de modelos específicos para a camada de dados reforça a separação entre as camadas do sistema. Enquanto a entidade de domínio (`UserEntity`) representa o conceito de usuário de forma independente, o `LoginRequestModel` é adaptado para atender às exigências do meio externo. Essa distinção evita o acoplamento entre regras de negócio e formatos de comunicação, permitindo maior flexibilidade na evolução da aplicação.
+
+Essa abordagem está alinhada com os princípios da Clean Architecture, conforme propostos por Robert C. Martin, que defendem a independência das regras de negócio em relação a detalhes externos, como APIs e bancos de dados. Ao utilizar modelos específicos para entrada e saída de dados, a aplicação consegue isolar mudanças nesses formatos sem impactar diretamente o domínio.
+
+Além disso, a utilização de modelos facilita a implementação de validações adicionais, transformações de dados e adaptações necessárias para integração com diferentes serviços. Em cenários mais complexos, esses modelos podem incluir métodos de desserialização (*fromMap*, *fromJson*), permitindo a reconstrução de objetos a partir de respostas externas.
+
+Em termos de manutenção e escalabilidade, essa separação contribui para um código mais organizado e compreensível, especialmente em sistemas de maior porte, onde múltiplas integrações externas podem coexistir.
+
+Em síntese, a classe `LoginRequestModel` exemplifica a função dos modelos na camada de dados, atuando como intermediária entre a aplicação e o ambiente externo. Sua estrutura simples, imutável e orientada à serialização reforça boas práticas de arquitetura, promovendo desacoplamento, clareza e adaptabilidade no sistema.
+
 
 ```dart
 class LoginRequestModel {
@@ -416,7 +490,28 @@ class LoginRequestModel {
 
 ---
 
-# 10) `features/auth/domain/repositories/auth_repository.dart`
+## 12. Abstração de Repositórios na Camada de Domínio: Análise da interface `AuthRepository`
+
+A interface `AuthRepository` constitui um elemento central na camada de domínio (*domain*) da arquitetura, sendo responsável por definir o contrato de acesso às operações relacionadas à autenticação de usuários. No contexto da Clean Architecture, repositórios são abstrações que estabelecem como os dados devem ser acessados, sem especificar detalhes de implementação, promovendo assim o desacoplamento entre as regras de negócio e as fontes de dados.
+
+A definição da interface como `abstract class` reforça seu papel como contrato, impedindo instanciamento direto e garantindo que sua implementação seja realizada em camadas externas, tipicamente na camada de dados (*data*). Essa separação está diretamente alinhada ao princípio da **inversão de dependência (Dependency Inversion Principle)**, um dos pilares do SOLID, formalizado por Robert C. Martin. Segundo esse princípio, módulos de alto nível (domínio) não devem depender de módulos de baixo nível (dados), mas sim de abstrações.
+
+O método `login` definido na interface representa uma operação de autenticação que recebe como parâmetros o e-mail e a senha do usuário. Sua assinatura retorna um `Future<Result<UserEntity>>`, o que evidencia dois aspectos importantes da arquitetura.
+
+Primeiramente, o uso de `Future` indica que a operação é assíncrona, característica comum em interações com APIs, bancos de dados ou outros serviços externos. Isso permite que a aplicação continue responsiva enquanto aguarda a conclusão da operação.
+
+Em segundo lugar, o retorno encapsulado na classe `Result<UserEntity>` demonstra uma abordagem robusta para o tratamento de sucesso e falha. Em vez de lançar exceções diretamente, o método retorna um objeto que pode conter tanto o resultado esperado (`UserEntity`) quanto uma mensagem de erro. Essa estratégia favorece um fluxo de controle mais previsível e facilita o tratamento de erros nas camadas superiores, como ViewModels.
+
+A escolha de retornar uma entidade de domínio (`UserEntity`) é particularmente relevante, pois reforça a separação entre as camadas. Mesmo que a implementação do repositório utilize modelos específicos da camada de dados (como `LoginRequestModel`), o domínio permanece isolado, recebendo apenas objetos que representam conceitos do negócio.
+
+Outro ponto importante é que a interface não define como a autenticação será realizada. A implementação concreta pode envolver chamadas a APIs REST, serviços locais, armazenamento em cache ou qualquer outra estratégia. Essa flexibilidade permite que o sistema evolua ou substitua tecnologias sem impactar o domínio.
+
+Essa abordagem também favorece a testabilidade da aplicação. Como o domínio depende apenas de uma abstração, é possível utilizar *mocks* ou *fakes* da interface `AuthRepository` em testes unitários, simulando diferentes cenários de autenticação sem depender de serviços externos.
+
+Além disso, o padrão Repository tem forte relação com conceitos de modelagem de domínio descritos por Eric Evans, sendo utilizado como uma camada de mediação entre o domínio e as fontes de dados, preservando a integridade das regras de negócio.
+
+Em síntese, a interface `AuthRepository` representa uma aplicação clara e consistente dos princípios da Clean Architecture, ao definir um contrato de autenticação desacoplado de implementações concretas. Sua estrutura contribui para a modularidade, flexibilidade e testabilidade do sistema, sendo essencial para a construção de aplicações modernas, escaláveis e bem organizadas.
+
 
 ```dart
 import '../../../../core/result/result.dart';
@@ -432,7 +527,25 @@ abstract class AuthRepository {
 
 ---
 
-# 11) `features/auth/data/datasources/auth_remote_datasource.dart`
+## 13. Fonte de Dados Remota: Análise da classe AuthRemoteDataSource
+
+A classe AuthRemoteDataSource está localizada na camada de dados (data) da arquitetura e tem como principal responsabilidade realizar a comunicação com fontes externas, como APIs, serviços web ou qualquer mecanismo remoto de obtenção de dados. No contexto da Clean Architecture, data sources são componentes especializados que lidam diretamente com detalhes de infraestrutura, sendo isolados das regras de negócio.
+
+No exemplo apresentado, o método login simula uma operação de autenticação remota. Ele recebe como parâmetro um objeto do tipo LoginRequestModel, que encapsula os dados necessários para a requisição (e-mail e senha), e retorna uma instância de UserEntity em caso de sucesso. Essa interação demonstra claramente o papel do data source como executor de operações externas, utilizando modelos de dados como entrada e produzindo resultados que serão posteriormente tratados por outras camadas.
+
+A utilização de Future indica que o método é assíncrono, refletindo o comportamento típico de chamadas remotas, como requisições HTTP. A presença de Future.delayed com duração de dois segundos simula o tempo de resposta de uma API, sendo uma prática comum em ambientes de desenvolvimento ou testes para reproduzir cenários reais de latência.
+
+A lógica implementada no método realiza uma verificação simples das credenciais fornecidas. Caso os valores correspondam aos dados esperados, um objeto UserEntity é retornado, representando um usuário autenticado. Caso contrário, uma exceção é lançada com a mensagem "Credenciais inválidas". Esse comportamento evidencia um padrão comum em fontes de dados: o lançamento de exceções para indicar falhas em operações externas.
+
+É importante destacar que, embora a classe retorne uma entidade de domínio (UserEntity), essa prática pode variar conforme a estratégia adotada. Em arquiteturas mais rigorosas, o data source retornaria um modelo de dados (data model), que seria posteriormente convertido em entidade dentro do repositório. No entanto, para simplificação e clareza didática, o exemplo realiza essa conversão diretamente.
+
+Do ponto de vista arquitetural, a classe não possui conhecimento sobre como os dados serão utilizados posteriormente. Ela não interage com ViewModels, interfaces de usuário ou regras de negócio. Sua única responsabilidade é obter ou enviar dados para uma fonte externa, respeitando o princípio da responsabilidade única (Single Responsibility Principle), conforme definido por Robert C. Martin.
+
+Além disso, a separação da lógica de acesso remoto em uma classe específica facilita a manutenção e a evolução do sistema. Caso seja necessário alterar a API, modificar endpoints ou integrar novos serviços, as mudanças ficarão restritas ao data source, sem impactar diretamente as demais camadas.
+
+Outro benefício importante é a testabilidade. A classe pode ser facilmente substituída por implementações simuladas (mocks ou fakes) durante testes, permitindo validar o comportamento do sistema sem dependência de serviços externos reais.
+
+Em síntese, a classe AuthRemoteDataSource exemplifica o papel das fontes de dados na arquitetura moderna, atuando como intermediária entre a aplicação e o ambiente externo. Sua implementação demonstra conceitos essenciais como assincronicidade, tratamento de erros e separação de responsabilidades, contribuindo para a construção de sistemas mais organizados, flexíveis e escaláveis.
 
 ```dart
 import '../../domain/entities/user_entity.dart';
@@ -458,7 +571,28 @@ class AuthRemoteDataSource {
 
 ---
 
-# 12) `features/auth/data/repositories/auth_repository_impl.dart`
+## 15. Implementação Concreta do Repositório: Análise da classe `AuthRepositoryImpl`
+
+A classe `AuthRepositoryImpl` representa a materialização concreta da interface `AuthRepository`, atuando como um elo fundamental entre a camada de domínio (*domain*) e a camada de dados (*data*). Sua principal função consiste em coordenar o fluxo de informações entre as regras de negócio e as fontes externas, garantindo que os dados sejam corretamente transformados, tratados e retornados em um formato adequado ao domínio.
+
+No contexto da Clean Architecture, essa classe exemplifica de forma clara a separação entre abstração e implementação. Enquanto o domínio define o contrato por meio da interface `AuthRepository`, a classe `AuthRepositoryImpl` especifica como a operação de autenticação será efetivamente realizada. Essa abordagem reforça o princípio da inversão de dependência, conforme proposto por Robert C. Martin, no qual as camadas internas não dependem de detalhes externos.
+
+A dependência do `AuthRemoteDataSource`, injetada por meio do construtor, evidencia a aplicação do padrão de injeção de dependência (*Dependency Injection*). Essa técnica promove baixo acoplamento e maior flexibilidade, permitindo que diferentes implementações de fonte de dados sejam utilizadas sem alterar a lógica do repositório. Além disso, facilita significativamente a realização de testes unitários, pois o *data source* pode ser substituído por versões simuladas (*mocks*).
+
+No método `login`, observa-se um fluxo bem definido de execução. Inicialmente, os parâmetros primitivos (`email` e `password`) são convertidos em um objeto `LoginRequestModel`, adequado para a camada de dados. Essa conversão reforça a separação entre modelos de transporte e entidades de domínio, evitando o vazamento de detalhes de implementação entre camadas.
+
+Em seguida, o repositório delega a operação ao `remoteDataSource`, que executa a chamada remota e retorna um objeto `UserEntity` em caso de sucesso. A escolha de retornar diretamente uma entidade de domínio simplifica o fluxo e mantém a consistência com o contrato definido na interface.
+
+Um dos aspectos mais relevantes da implementação é o tratamento de erros. A estrutura `try-catch` captura exceções lançadas pela camada de dados e as converte em um objeto `Result.failure`. Essa transformação é essencial para evitar a propagação de exceções para camadas superiores, substituindo um fluxo baseado em interrupções por um modelo explícito de sucesso ou falha.
+
+A utilização do método `replaceFirst` para remover o prefixo `"Exception: "` da mensagem de erro demonstra uma preocupação com a apresentação de mensagens mais limpas e amigáveis, especialmente para uso na camada de interface. Essa prática contribui para uma melhor experiência do usuário e para a padronização das mensagens de erro no sistema.
+
+Além disso, o retorno encapsulado em `Result<UserEntity>` permite que a camada de apresentação trate diferentes cenários (sucesso ou falha) de forma uniforme, sem depender de blocos adicionais de tratamento de exceções. Essa abordagem aproxima-se de paradigmas funcionais, nos quais os resultados são explicitamente representados como valores.
+
+Do ponto de vista de extensibilidade, o repositório pode evoluir para incorporar múltiplas fontes de dados, como cache local ou banco de dados offline, sem impactar o domínio. Ele também pode incluir estratégias de fallback, sincronização ou políticas de retry, tornando-se um componente estratégico na gestão de dados da aplicação.
+
+Em síntese, a classe `AuthRepositoryImpl` demonstra uma aplicação consistente dos princípios da Clean Architecture, atuando como mediadora entre domínio e dados, promovendo desacoplamento, tratamento adequado de erros e flexibilidade estrutural. Sua implementação contribui diretamente para a construção de sistemas mais robustos, testáveis e escaláveis.
+
 
 ```dart
 import '../../../../core/result/result.dart';
@@ -497,7 +631,26 @@ class AuthRepositoryImpl implements AuthRepository {
 
 ---
 
-# 13) `features/auth/domain/usecases/login_usecase.dart`
+## 16. Casos de Uso na Camada de Domínio: Análise da classe `LoginUseCase`
+
+A classe `LoginUseCase` representa a implementação de um caso de uso (*use case*) dentro da camada de domínio (*domain*), sendo responsável por orquestrar a execução de uma ação específica do sistema: a autenticação de um usuário. No contexto da Clean Architecture, os casos de uso encapsulam regras de negócio e definem como as operações devem ser realizadas, atuando como intermediários entre a camada de apresentação e os repositórios.
+
+Diferentemente das entidades, que representam conceitos estáticos do domínio, os *use cases* são orientados ao comportamento, descrevendo fluxos de execução e coordenando interações entre diferentes componentes. Segundo Robert C. Martin, os casos de uso devem conter as regras de negócio específicas da aplicação, sendo independentes de frameworks e detalhes externos.
+
+A classe `LoginUseCase` possui como dependência a interface `AuthRepository`, recebida por meio de injeção de dependência. Essa escolha reforça o desacoplamento entre o domínio e a camada de dados, garantindo que o caso de uso não tenha conhecimento sobre como a autenticação é implementada, mas apenas sobre o contrato que deve ser seguido.
+
+O método `call` é o ponto central da classe e define a execução do caso de uso. A adoção do nome `call` não é arbitrária; em Dart, esse padrão permite que a instância da classe seja invocada como uma função, promovendo uma sintaxe mais limpa e expressiva na camada de apresentação. Assim, o uso do caso de uso torna-se mais intuitivo e alinhado com práticas modernas de desenvolvimento.
+
+No que se refere à lógica implementada, o método atua como um delegador da operação para o repositório, repassando os parâmetros necessários (`email` e `password`). Embora o exemplo apresente uma lógica simples, essa estrutura permite a inclusão de regras adicionais sem impactar outras camadas. Por exemplo, validações mais complexas, transformações de dados, auditoria ou controle de fluxo podem ser incorporados diretamente no *use case*.
+
+O retorno do tipo `Future<Result<UserEntity>>` mantém a consistência com as camadas inferiores, preservando o tratamento explícito de sucesso e falha. Essa uniformidade facilita a integração com ViewModels e contribui para um fluxo previsível de dados ao longo da aplicação.
+
+Do ponto de vista arquitetural, o uso de casos de uso promove a centralização das regras de negócio, evitando que a lógica seja dispersa na camada de apresentação. Isso contribui para a manutenção do princípio da responsabilidade única e melhora a organização geral do sistema.
+
+Além disso, os *use cases* são altamente testáveis, pois dependem apenas de abstrações. É possível simular diferentes comportamentos do repositório e validar o fluxo de execução de forma isolada, sem necessidade de acessar fontes externas.
+
+Em síntese, a classe `LoginUseCase` exemplifica a função dos casos de uso na Clean Architecture, atuando como um coordenador de operações do domínio. Sua estrutura simples, desacoplada e extensível contribui para a clareza, organização e escalabilidade da aplicação, sendo essencial para a implementação de sistemas bem estruturados e orientados a boas práticas de engenharia de software.
+
 
 ```dart
 import '../../../../core/result/result.dart';
