@@ -1,7 +1,26 @@
 import 'package:flutter/material.dart';
 
-class HomePlaceholderScreen extends StatelessWidget {
-  const HomePlaceholderScreen({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin {
+  late final TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 3, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +73,7 @@ class HomePlaceholderScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(color: cardBorderColor),
               ),
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -76,24 +95,23 @@ class HomePlaceholderScreen extends StatelessWidget {
                     style: theme.textTheme.bodySmall?.copyWith(color: textColor, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 16),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                        decoration: const BoxDecoration(
-                          border: Border(bottom: BorderSide(color: Colors.black, width: 2)),
-                        ),
-                        child: Text('Ações', style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold, color: textColor)),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                        child: Text('Crypto', style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold, color: textColor)),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                        child: Text('FIIs', style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold, color: textColor)),
-                      ),
+                  TabBar(
+                    controller: _tabController,
+                    isScrollable: true,
+                    padding: EdgeInsets.zero,
+                    indicatorPadding: EdgeInsets.zero,
+                    labelPadding: const EdgeInsets.only(right: 32),
+                    indicator: const UnderlineTabIndicator(
+                      borderSide: BorderSide(color: Colors.black, width: 2.0),
+                    ),
+                    indicatorSize: TabBarIndicatorSize.label,
+                    labelColor: Colors.black,
+                    unselectedLabelColor: textColor.withAlpha(153),
+                    labelStyle: theme.textTheme.titleMedium!.copyWith(fontWeight: FontWeight.bold),
+                    tabs: const [
+                      Tab(text: 'Ações'),
+                      Tab(text: 'Crypto'),
+                      Tab(text: 'FIIs'),
                     ],
                   ),
                 ],
