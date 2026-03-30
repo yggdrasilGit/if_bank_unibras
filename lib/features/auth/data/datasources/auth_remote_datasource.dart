@@ -33,7 +33,7 @@
 /// Versao | Data       | Autor       | Descricao
 /// 1.0.0  | 18/03/2026 | Francismar  | Implementacao mock do login remoto
 /// 1.1.0  | 26/03/2026 | Caio Menin  | Inclusao de mock para cadastro e recuperacao
-/// 1.2.0  | 30/03/2026 | Hafrannio   | Integracao com a API real do projeto usando Dio
+/// 1.2.0  | 30/03/2026 | Hafrannio Rodrigues   | Integracao com a API real do projeto usando Dio
 ///
 /// ------------------------------------------------------------
 ///

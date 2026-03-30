@@ -104,7 +104,7 @@ import 'package:flutter/material.dart';
 ///
 /// Versao | Data       | Autor       | Descricao
 /// 1.0.0  | 18/03/2026 | Francismar  | Tema inicial do app
-/// 1.0.1  | 30/03/2026 | Hafrannio   | Edicao pontual do arquivo para a branch de integracao
+/// 1.0.1  | 30/03/2026 | Hafrannio Rodrigues   | Edicao pontual do arquivo para a branch de integracao
 ///
 /// ------------------------------------------------------------
 ///

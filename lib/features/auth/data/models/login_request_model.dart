@@ -113,7 +113,7 @@
 ///
 /// Versao | Data       | Autor       | Descricao
 /// 1.0.0  | 18/03/2026 | Francismar  | Criacao do model de login
-/// 1.0.1  | 30/03/2026 | Hafrannio   | Edicao pontual da documentacao para a branch de integracao
+/// 1.0.1  | 30/03/2026 | Hafrannio Rodrigues   | Edicao pontual da documentacao para a branch de integracao
 ///
 /// ------------------------------------------------------------
 ///

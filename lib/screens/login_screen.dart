@@ -30,7 +30,7 @@
 // Historico:
 // Versao | Data       | Autor       | Descricao
 // 1.0.0  | 19/03/2026 | Francismar  | Implementacao inicial da tela de login
-// 1.1.0  | 30/03/2026 | Hafrannio   | Integracao da tela com a API real do projeto
+// 1.1.0  | 30/03/2026 | Hafrannio Rodrigues   | Integracao da tela com a API real do projeto
 //
 // Observacoes:
 // - Estrutura visual preservada conforme o repositorio da equipe.

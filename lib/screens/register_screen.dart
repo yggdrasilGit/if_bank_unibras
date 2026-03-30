@@ -33,7 +33,7 @@
 // Historico:
 // Versao | Data       | Autor       | Descricao
 // 1.0.0  | 26/03/2026 | Caio Menin  | Criacao da tela de cadastro
-// 1.1.0  | 30/03/2026 | Hafrannio   | Integracao do cadastro com a API real do projeto
+// 1.1.0  | 30/03/2026 | Hafrannio Rodrigues   | Integracao do cadastro com a API real do projeto
 //
 // Observacoes:
 // - Estrutura visual preservada conforme o repositorio da equipe.

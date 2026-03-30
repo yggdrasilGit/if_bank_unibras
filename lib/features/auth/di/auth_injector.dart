@@ -104,7 +104,7 @@
 /// Versao | Data       | Autor       | Descricao
 /// 1.0.0  | 18/03/2026 | Francismar  | Implementacao inicial do modulo de DI
 /// 1.1.0  | 26/03/2026 | Caio Menin  | Registro dos fluxos de cadastro e recuperacao
-/// 1.1.1  | 30/03/2026 | Hafrannio   | Edicao pontual da documentacao para a branch de integracao
+/// 1.1.1  | 30/03/2026 | Hafrannio Rodrigues   | Edicao pontual da documentacao para a branch de integracao
 ///
 /// ------------------------------------------------------------
 ///

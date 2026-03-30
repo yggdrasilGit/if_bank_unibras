@@ -25,7 +25,7 @@
 // Historico:
 // Versao | Data       | Autor       | Descricao
 // 1.0.0  | 19/03/2026 | Equipe      | Implementacao visual base da home
-// 1.1.0  | 30/03/2026 | Hafrannio   | Ajuste para exibir o usuario autenticado sem alterar a estrutura da tela
+// 1.1.0  | 30/03/2026 | Hafrannio Rodrigues   | Ajuste para exibir o usuario autenticado sem alterar a estrutura da tela
 //
 // Observacoes:
 // - A autoria nominal do arquivo-base nao estava explicita no cabecalho consultado.
