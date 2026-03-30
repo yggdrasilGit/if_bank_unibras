@@ -113,18 +113,19 @@
 /// - Francismar Alves Martins Junior
 ///
 /// Criado em: 18/03/2026
-/// Última modificação: 18/03/2026
+/// Última modificação: 30/03/2026
 ///
 /// ------------------------------------------------------------
 ///
-/// Histórico de versões:
+/// Historico de versoes:
 ///
-/// Versão | Data       | Autor       | Descrição
-/// 1.0.0  | 18/03/2026 | Francismar  | Implementação inicial do UseCase de login
+/// Versao | Data       | Autor       | Descricao
+/// 1.0.0  | 18/03/2026 | Francismar  | Implementacao inicial do caso de uso de login
+/// 1.0.1  | 30/03/2026 | Hafrannio   | Edicao pontual da documentacao para a branch de integracao
 ///
 /// ------------------------------------------------------------
 ///
-/// Licença:
+/// Licenca:
 /// MIT License
 /// ============================================================
 library;
