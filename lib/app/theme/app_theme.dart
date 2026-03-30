@@ -129,13 +129,14 @@ class AppTheme {
       colorScheme: ColorScheme.fromSeed(
         seedColor: primaryColor,
         primary: primaryColor,
-        brightness: Brightness.dark, // 👈 importante
+        brightness: Brightness.dark, //importante
       ),
 
       /// Fundo escuro
-      scaffoldBackgroundColor: fistColor,
+     
+     
 
-      /// 🔥 TEXTOS GLOBAIS
+      /// TEXTOS GLOBAIS
       textTheme: const TextTheme(
         bodyLarge: TextStyle(color: textColor),
         bodyMedium: TextStyle(color: textColor),

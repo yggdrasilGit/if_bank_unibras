@@ -122,7 +122,7 @@ class ForgotPasswordScreen extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Consumer<ForgotPasswordViewModel>(
-      builder: (_, viewModel, __) {
+      builder: (_, viewModel, _) {
         return Scaffold(
           appBar: const AppTopBar(
             title: 'Recuperar senha',

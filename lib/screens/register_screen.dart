@@ -123,7 +123,7 @@ class RegisterScreen extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Consumer<RegisterViewModel>(
-      builder: (_, viewModel, __) {
+      builder: (_, viewModel, _) {
         return Scaffold(
           appBar: const AppTopBar(
             title: 'Cadastro',

@@ -30,7 +30,6 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     const Color textColor = Color(0xFF4B4B4B);
 
     return Scaffold(
-      backgroundColor: const Color(0xFFFAFAFA),
       appBar: AppBar(
         title: const Text('IF Bank', style: TextStyle(color: textColor, fontWeight: FontWeight.bold)),
         centerTitle: true,
@@ -51,7 +50,6 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                     'Bem-vindo de volta,\n[Nome do Usuario]',
                     style: theme.textTheme.titleLarge?.copyWith(
                       fontWeight: FontWeight.bold,
-                      color: textColor,
                     ),
                   ),
                 ),
@@ -62,7 +60,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                     color: const Color(0xFFE2E2E2),
                   ),
                   padding: const EdgeInsets.all(8),
-                  child: const Icon(Icons.person_outline, size: 32, color: Colors.black),
+                  child: const Icon(Icons.person_outline, size: 32),
                 ),
               ],
             ),

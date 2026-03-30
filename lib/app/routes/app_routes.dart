@@ -159,6 +159,6 @@ class AppRoutes {
     loginScreen: (_) => LoginScreen(),
     register: (_) => const RegisterScreen(),
     forgotPassword: (_) => const ForgotPasswordScreen(),
-    home: (_) => const HomePlaceholderScreen(),
+    home: (_) => const HomeScreen(),
   };
 }

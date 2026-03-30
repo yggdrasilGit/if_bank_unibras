@@ -133,7 +133,7 @@ class LoginScreen extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Consumer<LoginViewModel>(
-      builder: (_, viewModel, __) {
+      builder: (_, viewModel, _) {
         return Scaffold(
           body: SafeArea(
             child: Center(
