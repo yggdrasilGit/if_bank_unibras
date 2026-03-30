@@ -89,7 +89,7 @@
 ///
 /// Exemplo:
 ///
-/// factory LoginRequestModel.fromJson(Map<String, dynamic> json)
+/// `factory LoginRequestModel.fromJson(Map<String, dynamic> json)`
 ///
 /// ------------------------------------------------------------
 ///

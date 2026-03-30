@@ -118,7 +118,6 @@ class AppTheme {
     const Color primaryColor = Color(0xFF10B981);
     const Color secundaryColor = Color(0xff475569);
     const Color  terciaryColor = Color(0xffffffff);
-    const Color fistColor = Color(0xFF0F172A);
 
     /// Cor padrão dos textos (branco)
     const textColor = terciaryColor;

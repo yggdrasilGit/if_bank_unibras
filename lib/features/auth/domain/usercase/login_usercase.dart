@@ -54,7 +54,7 @@
 ///
 /// - Recebe dados (email, password)
 /// - Chama o repositório
-/// - Retorna resultado (Result<UserEntity>)
+/// - Retorna resultado (`Result<UserEntity>`)
 ///
 /// ------------------------------------------------------------
 ///

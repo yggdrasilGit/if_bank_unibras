@@ -75,8 +75,8 @@
 /// Novas dependências devem seguir o mesmo padrão:
 ///
 /// Exemplo:
-/// Provider<RegisterUseCase>
-/// ChangeNotifierProvider<RegisterViewModel>
+/// `Provider<RegisterUseCase>`
+/// `ChangeNotifierProvider<RegisterViewModel>`
 ///
 /// ------------------------------------------------------------
 ///

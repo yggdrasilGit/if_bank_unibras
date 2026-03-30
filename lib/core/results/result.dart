@@ -37,7 +37,7 @@
 ///
 /// Estrutura:
 ///
-/// Result<T>
+/// `Result<T>`
 ///  ├── data (T?)
 ///  ├── error (String?)
 ///  ├── isSuccess (bool)
