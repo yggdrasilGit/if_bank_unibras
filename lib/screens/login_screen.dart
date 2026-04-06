@@ -1,127 +1,51 @@
-/// ============================================================
-/// Arquivo: login_screen.dart
-/// Projeto: IF Bank Mobile Application
-///
-/// Descrição:
-/// Tela responsável por renderizar a interface de login do usuário.
-///
-///
-///
-/// ------------------------------------------------------------
-///
-/// Responsabilidades:
-///
-/// - Construir a UI da tela de login
-/// - Integrar widgets
-///
-/// ------------------------------------------------------------
-///
-/// Arquitetura:
-///
-/// Camada:
-/// → Presentation (View)
-///
-/// Padrão:
-/// → MVVM (Model-View-ViewModel)
-///
-/// Comunicação:
-///
-/// View → ViewModel (ações)
-/// ViewModel → View (estado)
-///
-/// ------------------------------------------------------------
-///
-/// Dependências externas:
-///
-/// - flutter/material.dart
-/// - import 'package:flutter_svg/svg.dart';
-///
-/// ------------------------------------------------------------
-///
-/// Dependências internas:
-///
-///
-/// ------------------------------------------------------------
-///
-/// Estrutura da UI:
-///
-/// LoginPage
-///  └── Scaffold
-///       └── SafeArea
-///            └── Center
-///                 └── Colunm
-///                     └── SvgPitures
-///                     └── Text
-///                     └── Text
-///
-///
-///
-/// ------------------------------------------------------------
-///
-/// Fluxo de execução:
-///
-///
-///
-/// ------------------------------------------------------------
-///
-/// Gerenciamento de estado:
-///
-///
-///
-/// ------------------------------------------------------------
-///
-/// Feedback ao usuário:
-///
-///
-/// ------------------------------------------------------------
-///
-/// Boas práticas:
-///
+// ============================================================
+// Arquivo: lib/screens/login_screen.dart
+// Projeto: IF Bank Mobile Application
+//
+// Descricao:
+// Tela responsavel por renderizar a interface de login do usuario.
+// O arquivo segue a base visual da equipe e foi ajustado para
+// autenticar contra a API real do projeto.
+//
+// Responsabilidades:
+// - Construir a UI da tela de login.
+// - Coletar credenciais do usuario.
+// - Acionar o fluxo de autenticacao via ViewModel.
+// - Encaminhar o usuario autenticado para a home.
+//
+// Dependencias:
+// - package:flutter/material.dart
+// - package:flutter_svg/svg.dart
+// - package:provider/provider.dart
+// - ../app/routes/app_routes.dart
+// - ../core/constants/app_strings.dart
+// - ../features/auth/presentation/viewmodels/login_viewmodel.dart
+//
+// Autor(es):
+// - Francismar Alves Martins Junior
+//
+// Criado em: 19/03/2026
+// Ultima modificacao: 30/03/2026
+//
+// Historico:
+// Versao | Data       | Autor       | Descricao
+// 1.0.0  | 19/03/2026 | Francismar  | Implementacao inicial da tela de login
+// 1.1.0  | 30/03/2026 | Hafrannio Rodrigues   | Integracao da tela com a API real do projeto
+//
+// Observacoes:
+// - Estrutura visual preservada conforme o repositorio da equipe.
+// - O usuario autenticado e enviado para a home via Navigator arguments.
+//
+// Licenca:
+// MIT License
+// ============================================================
 library;
-
-///
-/// ------------------------------------------------------------
-///
-/// Responsividade:
-///
-
-///
-/// ------------------------------------------------------------
-///
-/// Restrições:
-///
-/// NÃO deve conter:
-///
-/// - Regras de negócio
-/// - Chamadas diretas de API
-/// - Validações complexas
-///
-/// ------------------------------------------------------------
-///
-/// Autor(es):
-/// - Francismar Alves Martins Junior
-///
-/// Criado em: 19/03/2026
-/// Última modificação: 19/03/2026
-///
-/// ------------------------------------------------------------
-///
-/// Histórico:
-///
-/// Versão | Data       | Autor       | Descrição
-/// 1.0.0  | 19/03/2026 | Francismar  | Implentação da estrutua inicial
-///
-/// ------------------------------------------------------------
-///
-/// Licença:
-/// MIT License
-/// ============================================================
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:if_bank/app/routes/app_routes.dart';
 import 'package:provider/provider.dart';
 
+import '../app/routes/app_routes.dart';
 import '../core/constants/app_strings.dart';
 import '../features/auth/presentation/viewmodels/login_viewmodel.dart';
 
@@ -133,7 +57,7 @@ class LoginScreen extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Consumer<LoginViewModel>(
-      builder: (_, viewModel, __) {
+      builder: (_, viewModel, _) {
         return Scaffold(
           body: SafeArea(
             child: Center(
@@ -232,13 +156,15 @@ class LoginScreen extends StatelessWidget {
                                 ? null
                                 : () async {
                                     final success = await viewModel.login();
-                                    if (!context.mounted) return;
-                                    if (success) {
-                                      Navigator.pushReplacementNamed(
-                                        context,
-                                        AppRoutes.home,
-                                      );
+                                    if (!context.mounted || !success) {
+                                      return;
                                     }
+
+                                    Navigator.pushReplacementNamed(
+                                      context,
+                                      AppRoutes.home,
+                                      arguments: viewModel.user,
+                                    );
                                   },
                             child: viewModel.isLoading
                                 ? const SizedBox(

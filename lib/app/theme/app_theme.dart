@@ -96,18 +96,19 @@ import 'package:flutter/material.dart';
 /// - Francismar Alves Martins Junior
 ///
 /// Criado em: 18/03/2026
-/// Última modificação: 18/03/2026
+/// Última modificação: 30/03/2026
 ///
 /// ------------------------------------------------------------
 ///
-/// Histórico de versões:
+/// Historico de versoes:
 ///
-/// Versão | Data       | Autor       | Descrição
+/// Versao | Data       | Autor       | Descricao
 /// 1.0.0  | 18/03/2026 | Francismar  | Tema inicial do app
+/// 1.0.1  | 30/03/2026 | Hafrannio Rodrigues   | Edicao pontual do arquivo para a branch de integracao
 ///
 /// ------------------------------------------------------------
 ///
-/// Licença:
+/// Licenca:
 /// UNIBRAS License
 /// ============================================================
 
@@ -118,7 +119,6 @@ class AppTheme {
     const Color primaryColor = Color(0xFF10B981);
     const Color secundaryColor = Color(0xff475569);
     const Color  terciaryColor = Color(0xffffffff);
-    const Color fistColor = Color(0xFF0F172A);
 
     /// Cor padrão dos textos (branco)
     const textColor = terciaryColor;
@@ -129,13 +129,14 @@ class AppTheme {
       colorScheme: ColorScheme.fromSeed(
         seedColor: primaryColor,
         primary: primaryColor,
-        brightness: Brightness.dark, // 👈 importante
+        brightness: Brightness.dark, //importante
       ),
 
       /// Fundo escuro
-      scaffoldBackgroundColor: fistColor,
+     
+     
 
-      /// 🔥 TEXTOS GLOBAIS
+      /// TEXTOS GLOBAIS
       textTheme: const TextTheme(
         bodyLarge: TextStyle(color: textColor),
         bodyMedium: TextStyle(color: textColor),

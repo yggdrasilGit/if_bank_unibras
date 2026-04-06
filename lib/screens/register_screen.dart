@@ -1,109 +1,47 @@
-/// ============================================================
-/// Arquivo: register_screen.dart
-/// Projeto: IF Bank Mobile Application
-///
-/// Descrição:
-/// Tela responsável por renderizar a interface de cadastro
-/// de novos usuários.
-///
-/// ------------------------------------------------------------
-///
-/// Responsabilidades:
-///
-/// - Construir a UI da tela de cadastro
-/// - Coletar dados basicos do usuario
-/// - Realizar validações básicas de formulário
-/// - Exibir feedback simples ao usuario
-///
-/// ------------------------------------------------------------
-///
-/// Arquitetura:
-///
-/// Camada:
-/// -> Presentation (View)
-///
-/// Padrao:
-/// -> MVVM (Model-View-ViewModel)
-///
-/// Comunicação:
-///
-/// View -> ViewModel (ações futuras)
-/// ViewModel -> View (estado futuro)
-///
-/// ------------------------------------------------------------
-///
-/// Dependencias externas:
-///
-/// - flutter/material.dart
-/// - flutter_svg/svg.dart
-///
-/// ------------------------------------------------------------
-///
-/// Dependencias internas:
-///
-/// - AppRoutes
-/// - AppStrings
-/// - AppTopBar
-///
-/// ------------------------------------------------------------
-///
-/// Estrutura da UI:
-///
-/// RegisterScreen
-///  -> Scaffold
-///       -> AppTopBar
-///       -> SafeArea
-///            -> SingleChildScrollView
-///                 -> Form
-///                      -> Campos de cadastro
-///                      -> Botao cadastrar
-///
-/// ------------------------------------------------------------
-///
-/// Gerenciamento de estado:
-///
-/// - StatelessWidget + Consumer<RegisterViewModel>
-/// - Formulario controlado pelo RegisterViewModel
-/// - Estado de loading/erro no ViewModel
-///
-/// ------------------------------------------------------------
-///
-/// Feedback ao usuario:
-///
-/// - Mensagens de erro por campo
-/// - SnackBar de sucesso em validação
-///
-/// ------------------------------------------------------------
-///
-/// Restrições:
-///
-/// Não deve conter:
-///
-/// - Regras de negócio complexas
-/// - Chamadas diretas de API
-/// - Lógica de autenticação
-///
-/// ------------------------------------------------------------
-///
-/// Autor(es):
-/// - Francismar Alves Martins Junior
-/// - Caio Cesar Silva Menin
-///
-/// Criado em: 26/03/2026
-/// Última modificação: 26/03/2026
-///
-/// ------------------------------------------------------------
-///
-/// Histórico:
-///
-/// Versão | Data       | Autor       | Descrição
-/// 1.0.0  | 26/03/2026 | Caio Menin  | Criação da tela de cadastro
-///
-/// ------------------------------------------------------------
-///
-/// Licença:
-/// MIT License
-/// ============================================================
+// ============================================================
+// Arquivo: lib/screens/register_screen.dart
+// Projeto: IF Bank Mobile Application
+//
+// Descricao:
+// Tela responsavel por renderizar a interface de cadastro
+// de novos usuarios.
+// Esta versao segue o padrao visual da equipe e foi conectada
+// ao endpoint real de cadastro da API do projeto.
+//
+// Responsabilidades:
+// - Construir a UI da tela de cadastro.
+// - Coletar dados basicos do usuario.
+// - Acionar o fluxo de registro via ViewModel.
+// - Encaminhar o usuario recem-cadastrado para a home.
+//
+// Dependencias:
+// - package:flutter/material.dart
+// - package:flutter_svg/svg.dart
+// - package:provider/provider.dart
+// - ../app/routes/app_routes.dart
+// - ../core/constants/app_strings.dart
+// - ../core/widgets/app_top_bar.dart
+// - ../features/auth/presentation/viewmodels/register_viewmodel.dart
+//
+// Autor(es):
+// - Francismar Alves Martins Junior
+// - Caio Cesar Silva Menin
+//
+// Criado em: 26/03/2026
+// Ultima modificacao: 30/03/2026
+//
+// Historico:
+// Versao | Data       | Autor       | Descricao
+// 1.0.0  | 26/03/2026 | Caio Menin  | Criacao da tela de cadastro
+// 1.1.0  | 30/03/2026 | Hafrannio Rodrigues   | Integracao do cadastro com a API real do projeto
+//
+// Observacoes:
+// - Estrutura visual preservada conforme o repositorio da equipe.
+// - O usuario retornado pela API e enviado para a home via Navigator arguments.
+//
+// Licenca:
+// MIT License
+// ============================================================
 library;
 
 import 'package:flutter/material.dart';
@@ -123,7 +61,7 @@ class RegisterScreen extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Consumer<RegisterViewModel>(
-      builder: (_, viewModel, __) {
+      builder: (_, viewModel, _) {
         return Scaffold(
           appBar: const AppTopBar(
             title: 'Cadastro',
@@ -240,19 +178,17 @@ class RegisterScreen extends StatelessWidget {
                             onPressed: viewModel.isLoading
                                 ? null
                                 : () async {
-                                    final success = await viewModel.register();
-                                    if (!context.mounted) return;
-                                    if (success) {
-                                      final name =
-                                          viewModel.user?.name ?? 'Usuário';
-                                      ScaffoldMessenger.of(context).showSnackBar(
-                                        SnackBar(
-                                          content: Text(
-                                            'Conta criada com sucesso, $name!',
-                                          ),
-                                        ),
-                                      );
+                                    final success =
+                                        await viewModel.register();
+                                    if (!context.mounted || !success) {
+                                      return;
                                     }
+
+                                    Navigator.pushReplacementNamed(
+                                      context,
+                                      AppRoutes.home,
+                                      arguments: viewModel.user,
+                                    );
                                   },
                             child: viewModel.isLoading
                                 ? const SizedBox(

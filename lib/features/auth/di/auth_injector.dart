@@ -75,8 +75,8 @@
 /// Novas dependências devem seguir o mesmo padrão:
 ///
 /// Exemplo:
-/// Provider<RegisterUseCase>
-/// ChangeNotifierProvider<RegisterViewModel>
+/// `Provider<RegisterUseCase>`
+/// `ChangeNotifierProvider<RegisterViewModel>`
 ///
 /// ------------------------------------------------------------
 ///
@@ -95,19 +95,20 @@
 /// - Caio Cesar Silva Menin
 ///
 /// Criado em: 18/03/2026
-/// Última modificação: 26/03/2026
+/// Última modificação: 30/03/2026
 ///
 /// ------------------------------------------------------------
 ///
-/// Histórico:
+/// Historico:
 ///
-/// Versão | Data       | Autor       | Descrição
-/// 1.0.0  | 18/03/2026 | Francismar  | Implementação inicial do módulo de DI
-/// 1.1.0  | 26/03/2026 | Caio Menin  | Registro dos fluxos de cadastro e recuperação
+/// Versao | Data       | Autor       | Descricao
+/// 1.0.0  | 18/03/2026 | Francismar  | Implementacao inicial do modulo de DI
+/// 1.1.0  | 26/03/2026 | Caio Menin  | Registro dos fluxos de cadastro e recuperacao
+/// 1.1.1  | 30/03/2026 | Hafrannio Rodrigues   | Edicao pontual da documentacao para a branch de integracao
 ///
 /// ------------------------------------------------------------
 ///
-/// Licença:
+/// Licenca:
 /// MIT License
 /// ============================================================
 library;
