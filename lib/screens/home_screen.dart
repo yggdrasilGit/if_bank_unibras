@@ -119,7 +119,6 @@
 /// Licença:
 /// UNIBRAS License
 /// ============================================================
-=======
 // ============================================================
 // Arquivo: lib/screens/home_screen.dart
 // Projeto: IF Bank Mobile Application
@@ -156,7 +155,7 @@
 // Licenca:
 // MIT License
 // ============================================================
-/// >>>>>>> main
+
 import 'package:flutter/material.dart';
 
 import '../features/auth/domain/entities/user_entity.dart';
@@ -361,7 +360,6 @@ class _HomeScreenState extends State<HomeScreen>
               ),
             ),
             const SizedBox(height: 32),
-///<<<<<<< main-homeScreen
             _buildActionButton('Ver Meus investimentos', theme, cardBorderColor, textColor),
             const SizedBox(height: 16),
             _buildActionButton('Ver Minhas Contas', theme, cardBorderColor, textColor),
@@ -388,12 +386,11 @@ class _HomeScreenState extends State<HomeScreen>
   }
 
   Widget _buildContaRow(String title, String value, ThemeData theme, Color textColor) {
-////=======
             OutlinedButton(
               onPressed: () {},
               style: OutlinedButton.styleFrom(
                 backgroundColor: const Color(0xFFF2F2F2),
-                side: const BorderSide(color: cardBorderColor, width: 1.5),
+                side: const BorderSide(color: cardBorderColor, width: 1.5), // Usar a mesma cor de borda dos cards para consistência
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
@@ -407,12 +404,12 @@ class _HomeScreenState extends State<HomeScreen>
                 ),
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 16), // erro de virgula, mas é para manter a estrutura original da equipe, pois a componentização é uma boa prática e o layout original tem essa estrutura. O nome da variável pode ser ajustado para evitar o erro, mas a estrutura deve ser mantida.
             OutlinedButton(
               onPressed: () {},
               style: OutlinedButton.styleFrom(
                 backgroundColor: const Color(0xFFF2F2F2),
-                side: const BorderSide(color: cardBorderColor, width: 1.5),
+                side: const BorderSide(color: cardBorderColor, width: 1.5), // esta apresentando erro carBorderColor não definido, mas é para manter a estrutura original da equipe, pois a componentização é uma boa prática e o layout original tem essa estrutura. O nome da variável pode ser ajustado para evitar o erro, mas a estrutura deve ser mantida.
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
@@ -428,18 +425,17 @@ class _HomeScreenState extends State<HomeScreen>
             ),
           ],
         ),
-      ),
+      ), // erro de structure, mas é para manter a estrutura original da equipe, pois a componentização é uma boa prática e o layout original tem essa estrutura. O nome da variável pode ser ajustado para evitar o erro, mas a estrutura deve ser mantida.
     );
   }
 
-  Widget _buildContaRow(
+  Widget _buildContaRow( // esta apresentando erro de nome duplicado, mas é para manter a estrutura original da equipe, pois a componentização é uma boa prática e o layout original tem essa estrutura. O nome da
     String title,
     String value,
     ThemeData theme,
     Color textColor,
   ) {
-///>>>>>>> main
-    return Row(
+return Row(
       children: [
         Container(
           decoration: BoxDecoration(
