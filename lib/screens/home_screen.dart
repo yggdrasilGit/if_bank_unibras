@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'my-account_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -153,7 +154,12 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
             ),
             const SizedBox(height: 16),
             OutlinedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const MyAccountScreen()),
+                );
+              },
               style: OutlinedButton.styleFrom(
                 backgroundColor: const Color(0xFFF2F2F2),
                 side: const BorderSide(color: cardBorderColor, width: 1.5),
