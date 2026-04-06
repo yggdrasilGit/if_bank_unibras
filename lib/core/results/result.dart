@@ -37,7 +37,7 @@
 ///
 /// Estrutura:
 ///
-/// Result<T>
+/// `Result<T>`
 ///  ├── data (T?)
 ///  ├── error (String?)
 ///  ├── isSuccess (bool)
@@ -115,18 +115,19 @@
 /// - Francismar Alves Martins Junior
 ///
 /// Criado em: 17/03/2026
-/// Última modificação: 17/03/2026
+/// Última modificação: 30/03/2026
 ///
 /// ------------------------------------------------------------
 ///
-/// Histórico de versões:
+/// Historico de versoes:
 ///
-/// Versão | Data       | Autor       | Descrição
-/// 1.0.0  | 17/03/2026 | Francismar  | Implementação inicial do Result Pattern
+/// Versao | Data       | Autor       | Descricao
+/// 1.0.0  | 17/03/2026 | Francismar  | Implementacao inicial do Result Pattern
+/// 1.0.1  | 30/03/2026 | Hafrannio Rodrigues   | Edicao pontual da documentacao para a branch de integracao
 ///
 /// ------------------------------------------------------------
 ///
-/// Licença:
+/// Licenca:
 /// UNIBRAS License
 /// ============================================================
 library;
