@@ -1,3 +1,125 @@
+///<<<<<<< main-homeScreen
+/// ============================================================
+/// Arquivo: home_screen.dart
+/// Projeto: IF Bank Mobile Application
+///
+/// Descrição:
+/// Este arquivo implementa a tela inicial da aplicação IF Bank.
+/// Ele é responsável por exibir um resumo das informações do
+/// usuário, incluindo patrimônio total, contas e acesso rápido
+/// às funcionalidades principais.
+///
+/// A tela inclui:
+/// - Saudação personalizada ao usuário
+/// - Exibição de patrimônio total
+/// - Navegação por abas (Ações, Crypto, FIIs)
+/// - Listagem de contas
+/// - Botões de acesso rápido
+///
+/// ------------------------------------------------------------
+///
+/// Responsabilidades:
+///
+/// - Exibir dados principais do usuário
+/// - Organizar informações financeiras
+/// - Fornecer navegação inicial
+/// - Servir como dashboard da aplicação
+///
+/// ------------------------------------------------------------
+///
+/// Arquitetura:
+///
+/// Este arquivo pertence à camada:
+/// → Presentation Layer
+///
+/// Atua como:
+/// → UI Screen (StatefulWidget)
+///
+/// ------------------------------------------------------------
+///
+/// Dependências externas:
+///
+/// - flutter/material.dart
+///   → Framework de UI do Flutter
+///
+/// ------------------------------------------------------------
+///
+/// Estrutura:
+///
+/// HomeScreen (StatefulWidget)
+///  └── _HomeScreenState
+///       ├── TabController
+///       ├── build()
+///       └── _buildContaRow()
+///
+/// ------------------------------------------------------------
+///
+/// Funcionamento:
+///
+/// A tela utiliza:
+/// - TabController para navegação entre abas
+/// - SingleChildScrollView para rolagem
+/// - Containers estilizados para organização visual
+///
+/// Os dados exibidos atualmente são estáticos,
+/// podendo ser integrados futuramente com APIs
+/// ou gerenciadores de estado.
+///
+/// ------------------------------------------------------------
+///
+/// Boas práticas aplicadas:
+///
+/// - Separação de responsabilidades
+/// - Uso de StatefulWidget para controle de abas
+/// - Componentização (_buildContaRow)
+/// - Uso consistente de ThemeData
+/// - Layout responsivo com Expanded e Padding
+///
+/// ------------------------------------------------------------
+///
+/// Escalabilidade:
+///
+/// Possíveis evoluções:
+///
+/// - Integração com backend/API
+/// - Uso de gerenciador de estado (Provider, Riverpod, Bloc)
+/// - Internacionalização (i18n)
+/// - Componentização adicional (widgets reutilizáveis)
+///
+/// ------------------------------------------------------------
+///
+/// O que NÃO deve conter neste arquivo:
+///
+/// - Lógica de negócio complexa
+/// - Regras de validação
+/// - Acesso direto a banco de dados
+///
+/// Este arquivo é focado apenas na interface.
+///
+/// ------------------------------------------------------------
+///
+/// Autor(es):
+/// - Luiz Felipe Gregorio Gonçalves & Efraim Haniel Oliveira Moura 
+///
+/// Criado em: 29/03/2026
+/// Última modificação: 05/04/2026
+///
+/// ------------------------------------------------------------
+///
+/// Histórico de versões:
+///
+/// Versão | Data       | Autor       | Descrição
+/// 1.0.0  | 30/03/2026 | Francismar  | Implementação inicial da HomeScreen
+/// Versão | Data       | Autor       | Descrição
+/// 1.0.1  | 30/03/2026 | Efraim & Luiz Felipe  | Implementação parcial da HomeScreen///
+/// 1.0.2  | 05/04/2026 | Efraim & Luiz Felipe  | Implementação final com troca para designe padrão de cores e navegação por aba fii e crypto funcionando corretamente///
+///
+/// ------------------------------------------------------------
+///
+/// Licença:
+/// UNIBRAS License
+/// ============================================================
+=======
 // ============================================================
 // Arquivo: lib/screens/home_screen.dart
 // Projeto: IF Bank Mobile Application
@@ -34,6 +156,7 @@
 // Licenca:
 // MIT License
 // ============================================================
+/// >>>>>>> main
 import 'package:flutter/material.dart';
 
 import '../features/auth/domain/entities/user_entity.dart';
@@ -53,12 +176,30 @@ class _HomeScreenState extends State<HomeScreen>
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
+    
+    _tabController.addListener(() {
+      if (!_tabController.indexIsChanging) {
+        setState(() {});
+      }
+    });
   }
 
   @override
   void dispose() {
     _tabController.dispose();
     super.dispose();
+  }
+
+  String _getSaldo() {
+    switch (_tabController.index) {
+      case 1:
+        return 'R\$5.876,12';
+      case 2:
+        return 'R\$1.869,65';
+      case 0:
+      default:
+        return 'R\$1.034,07';
+    }
   }
 
   @override
@@ -134,13 +275,23 @@ class _HomeScreenState extends State<HomeScreen>
                     ),
                   ),
                   const SizedBox(height: 8),
-                  Text(
-                    'R\$1.034,07',
-                    style: theme.textTheme.headlineMedium?.copyWith(
-                      fontWeight: FontWeight.w900,
-                      color: textColor,
+                  
+                  // TRANSIÇÃO INSTANTÂNEA MAS SUAVE (SEM EFEITO DE MOVIMENTO)
+                  AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 100),
+                    transitionBuilder: (Widget child, Animation<double> animation) {
+                      return FadeTransition(opacity: animation, child: child);
+                    },
+                    child: Text(
+                      _getSaldo(),
+                      key: ValueKey<int>(_tabController.index), 
+                      style: theme.textTheme.headlineMedium?.copyWith(
+                        fontWeight: FontWeight.w900,
+                        color: textColor,
+                      ),
                     ),
                   ),
+
                   const SizedBox(height: 4),
                   Text(
                     'resumo\nfinanceiro',
@@ -210,6 +361,34 @@ class _HomeScreenState extends State<HomeScreen>
               ),
             ),
             const SizedBox(height: 32),
+///<<<<<<< main-homeScreen
+            _buildActionButton('Ver Meus investimentos', theme, cardBorderColor, textColor),
+            const SizedBox(height: 16),
+            _buildActionButton('Ver Minhas Contas', theme, cardBorderColor, textColor),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildActionButton(String label, ThemeData theme, Color borderColor, Color textColor) {
+    return OutlinedButton(
+      onPressed: () {},
+      style: OutlinedButton.styleFrom(
+        backgroundColor: const Color(0xFFF2F2F2),
+        side: BorderSide(color: borderColor, width: 1.5),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        padding: const EdgeInsets.symmetric(vertical: 16),
+      ),
+      child: Text(
+        label,
+        style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold, color: textColor),
+      ),
+    );
+  }
+
+  Widget _buildContaRow(String title, String value, ThemeData theme, Color textColor) {
+////=======
             OutlinedButton(
               onPressed: () {},
               style: OutlinedButton.styleFrom(
@@ -259,6 +438,7 @@ class _HomeScreenState extends State<HomeScreen>
     ThemeData theme,
     Color textColor,
   ) {
+///>>>>>>> main
     return Row(
       children: [
         Container(
