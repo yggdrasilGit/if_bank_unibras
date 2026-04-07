@@ -118,7 +118,10 @@
 /// Licença:
 /// UNIBRAS License
 /// ============================================================
+library;
+
 import 'package:flutter/material.dart';
+import 'package:if_bank/app/routes/app_routes.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -198,8 +201,13 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                     border: Border.all(color: Colors.black, width: 1.5),
                     color: const Color(0xFFE2E2E2),
                   ),
-                  padding: const EdgeInsets.all(8),
-                  child: const Icon(Icons.person_outline, size: 32, color: Colors.black),
+                  child: IconButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, AppRoutes.editProfile);
+                    },
+                    icon: const Icon(Icons.person_outline, size: 32, color: Colors.black),
+                    tooltip: 'Editar perfil',
+                  ),
                 ),
               ],
             ),
@@ -287,18 +295,40 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
               ),
             ),
             const SizedBox(height: 32),
-            _buildActionButton('Ver Meus investimentos', theme, cardBorderColor, textColor),
+            _buildActionButton(
+              'Ver Meus investimentos',
+              theme,
+              cardBorderColor,
+              textColor,
+              onPressed: () {
+                Navigator.pushNamed(context, AppRoutes.investments);
+              },
+            ),
             const SizedBox(height: 16),
-            _buildActionButton('Ver Minhas Contas', theme, cardBorderColor, textColor),
+            _buildActionButton(
+              'Ver Minhas Contas',
+              theme,
+              cardBorderColor,
+              textColor,
+              onPressed: () {
+                Navigator.pushNamed(context, AppRoutes.accounts);
+              },
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildActionButton(String label, ThemeData theme, Color borderColor, Color textColor) {
+  Widget _buildActionButton(
+    String label,
+    ThemeData theme,
+    Color borderColor,
+    Color textColor, {
+    required VoidCallback onPressed,
+  }) {
     return OutlinedButton(
-      onPressed: () {},
+      onPressed: onPressed,
       style: OutlinedButton.styleFrom(
         backgroundColor: const Color(0xFFF2F2F2),
         side: BorderSide(color: borderColor, width: 1.5),

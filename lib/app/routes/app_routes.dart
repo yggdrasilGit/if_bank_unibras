@@ -128,8 +128,11 @@
 library;
 
 import 'package:flutter/material.dart';
+import 'package:if_bank/screens/accounts_screen.dart';
+import 'package:if_bank/screens/edit_profile_screen.dart';
 import 'package:if_bank/screens/forgot_password_screen.dart';
 import 'package:if_bank/screens/home_screen.dart';
+import 'package:if_bank/screens/investments_screen.dart';
 import 'package:if_bank/screens/login_screen.dart';
 import 'package:if_bank/screens/register_screen.dart';
 
@@ -142,6 +145,9 @@ class AppRoutes {
   static const String register = '/register';
   static const String forgotPassword = '/forgot-password';
   static const String home = '/home';
+  static const String editProfile = '/edit-profile';
+  static const String accounts = '/accounts';
+  static const String investments = '/investments';
 
   /// Rota da página de (Registro)
   // static const Register register = '/register'
@@ -160,5 +166,8 @@ class AppRoutes {
     register: (_) => const RegisterScreen(),
     forgotPassword: (_) => const ForgotPasswordScreen(),
     home: (_) => const HomeScreen(),
+    editProfile: (_) => const EditProfileScreen(),
+    accounts: (_) => const AccountsScreen(),
+    investments: (_) => const InvestmentsScreen(),
   };
 }

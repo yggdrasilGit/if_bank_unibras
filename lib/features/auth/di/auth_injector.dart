@@ -114,6 +114,7 @@
 library;
 
 import 'package:if_bank/features/auth/data/repositories/auth_repository.dart';
+import 'package:if_bank/features/auth/presentation/viewmodels/accounts_viewmodel.dart';
 import 'package:if_bank/features/auth/domain/usercase/login_usercase.dart';
 import 'package:if_bank/features/auth/domain/usercase/register_usercase.dart';
 import 'package:if_bank/features/auth/domain/usercase/request_password_reset_usercase.dart';
@@ -125,6 +126,7 @@ import '../data/datasources/auth_remote_datasource.dart';
 import '../data/repositories/auth_repository_impl.dart';
 import '../presentation/viewmodels/forgot_password_viewmodel.dart';
 import '../presentation/viewmodels/login_viewmodel.dart';
+import '../presentation/viewmodels/edit_profile_viewmodel.dart';
 import '../presentation/viewmodels/register_viewmodel.dart';
 
 /// Módulo de injeção de dependências da feature Auth.
@@ -187,6 +189,17 @@ class AuthInjector {
         requestPasswordResetUseCase: context
             .read<RequestPasswordResetUseCase>(),
         validatorService: context.read<ValidatorService>(),
+      ),
+    ),
+    ChangeNotifierProvider<EditProfileViewModel>(
+      create: (context) => EditProfileViewModel(
+        validatorService: context.read<ValidatorService>(),
+        authRemoteDataSource: context.read<AuthRemoteDataSource>(),
+      ),
+    ),
+    ChangeNotifierProvider<AccountsViewModel>(
+      create: (context) => AccountsViewModel(
+        authRemoteDataSource: context.read<AuthRemoteDataSource>(),
       ),
     ),
   ];
