@@ -50,9 +50,14 @@ abstract final class ApiConstants {
       return 'http://10.0.2.2:8000/api/v1';
     }
 
-    return 'http://127.0.0.1:8000/api/v1';
+    // return 'http://127.0.0.1:8000/api/v1';
+    return 'http://3.236.172.242/api/v1/';
   }
 
-  static const login = '/auth/login/';
-  static const register = '/auth/register/';
+  // static const login = '/auth/login/';
+  // static const register = '/auth/register/';
+  static const login = 'auth/login/';
+  static const register = 'auth/register/';
+  static const profile = 'auth/profile/';
+  static const accounts = 'accounts/';
 }
