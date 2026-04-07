@@ -138,7 +138,7 @@ class ValidatorService {
 
     /// Verifica formato do e-mail
     if (!emailRegex.hasMatch(value.trim())) {
-      return 'Informe um e-mail válido';
+      return 'Informe um e-mail valido';
     }
 
     /// Valor válido
@@ -157,11 +157,90 @@ class ValidatorService {
     }
 
     /// Verifica tamanho mínimo
-    if (value.length < 6) {
-      return 'A senha deve ter pelo menos 6 caracteres';
+    if (value.length < 8) {
+      return 'A senha deve ter pelo menos 8 caracteres';
     }
 
-    /// Valor válido
+    /// Evita senha somente numérica
+    if (RegExp(r'^\d+$').hasMatch(value)) {
+      return 'A senha nao pode ser inteiramente numerica';
+    }
+
+    const commonPasswords = {
+      '123456',
+      '12345678',
+      '123456789',
+      '1234567890',
+      'password',
+      'senha',
+      'qwerty',
+      'admin',
+    };
+    if (commonPasswords.contains(value.toLowerCase())) {
+      return 'Escolha uma senha menos comum';
+    }
+
+    final hasLetter = RegExp(r'[A-Za-z]').hasMatch(value);
+    final hasNumber = RegExp(r'\d').hasMatch(value);
+    if (!hasLetter || !hasNumber) {
+      return 'Use letras e numeros na senha';
+    }
+
+    return null;
+  }
+
+  /// Valida CPF (somente digitos, 11 posicoes)
+  String? validateCpf(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return 'Informe seu CPF';
+    }
+
+    final digits = value.replaceAll(RegExp(r'\D'), '');
+    if (digits.length != 11) {
+      return 'Informe um CPF valido';
+    }
+
+    return null;
+  }
+
+  /// Valida telefone (minimo de 10 digitos)
+  String? validatePhone(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return 'Informe seu telefone';
+    }
+
+    final digits = value.replaceAll(RegExp(r'\D'), '');
+    if (digits.length < 10) {
+      return 'Informe um telefone valido';
+    }
+
+    return null;
+  }
+
+  /// Valida data no formato DD/MM/YYYY
+  String? validateBirthDate(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return 'Informe sua data de nascimento';
+    }
+
+    final input = value.trim();
+    final match = RegExp(r'^(\d{2})\/(\d{2})\/(\d{4})$').firstMatch(input);
+    if (match == null) {
+      return 'Use o formato DD/MM/YYYY';
+    }
+
+    final day = int.parse(match.group(1)!);
+    final month = int.parse(match.group(2)!);
+    final year = int.parse(match.group(3)!);
+
+    final parsed = DateTime.tryParse('$year-$month-$day');
+    if (parsed == null ||
+        parsed.year != year ||
+        parsed.month != month ||
+        parsed.day != day) {
+      return 'Informe uma data valida';
+    }
+
     return null;
   }
 }

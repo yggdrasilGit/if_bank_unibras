@@ -92,6 +92,9 @@ abstract class AuthRepository {
     required String name,
     required String email,
     required String password,
+    required String cpf,
+    required String phone,
+    required String birthDate,
   });
 
   Future<Result<String>> requestPasswordReset({

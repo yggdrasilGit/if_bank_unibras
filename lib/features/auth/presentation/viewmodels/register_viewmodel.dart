@@ -95,6 +95,9 @@ class RegisterViewModel extends ChangeNotifier {
   final formKey = GlobalKey<FormState>();
   final nameController = TextEditingController();
   final emailController = TextEditingController();
+  final cpfController = TextEditingController();
+  final phoneController = TextEditingController();
+  final birthDateController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
 
@@ -128,6 +131,18 @@ class RegisterViewModel extends ChangeNotifier {
     return validatorService.validatePassword(value);
   }
 
+  String? validateCpf(String? value) {
+    return validatorService.validateCpf(value);
+  }
+
+  String? validatePhone(String? value) {
+    return validatorService.validatePhone(value);
+  }
+
+  String? validateBirthDate(String? value) {
+    return validatorService.validateBirthDate(value);
+  }
+
   String? validateConfirmPassword(String? value) {
     if (value == null || value.isEmpty) {
       return 'Confirme sua senha';
@@ -153,6 +168,14 @@ class RegisterViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setBirthDate(DateTime date) {
+    final year = date.year.toString().padLeft(4, '0');
+    final month = date.month.toString().padLeft(2, '0');
+    final day = date.day.toString().padLeft(2, '0');
+    birthDateController.text = '$year-$month-$day';
+    clearError();
+  }
+
   Future<bool> register() async {
     _errorMessage = null;
 
@@ -164,6 +187,9 @@ class RegisterViewModel extends ChangeNotifier {
       name: nameController.text.trim(),
       email: emailController.text.trim(),
       password: passwordController.text,
+      cpf: cpfController.text.trim(),
+      phone: phoneController.text.trim(),
+      birthDate: _birthDateToApiFormat(birthDateController.text.trim()),
     );
     _setLoading(false);
 
@@ -183,10 +209,25 @@ class RegisterViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  String _birthDateToApiFormat(String value) {
+    final parts = value.split('/');
+    if (parts.length != 3) {
+      return value;
+    }
+
+    final day = parts[0].padLeft(2, '0');
+    final month = parts[1].padLeft(2, '0');
+    final year = parts[2];
+    return '$year-$month-$day';
+  }
+
   @override
   void dispose() {
     nameController.dispose();
     emailController.dispose();
+    cpfController.dispose();
+    phoneController.dispose();
+    birthDateController.dispose();
     passwordController.dispose();
     confirmPasswordController.dispose();
     super.dispose();

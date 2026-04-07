@@ -45,6 +45,7 @@
 library;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
@@ -59,6 +60,9 @@ class RegisterScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final cpfFormatter = _CpfInputFormatter();
+    final phoneFormatter = _BrazilPhoneInputFormatter();
+    final birthDateFormatter = _DateInputFormatter();
 
     return Consumer<RegisterViewModel>(
       builder: (_, viewModel, _) {
@@ -80,6 +84,7 @@ class RegisterScreen extends StatelessWidget {
                     padding: const EdgeInsets.all(8),
                     child: Form(
                       key: viewModel.formKey,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
@@ -122,6 +127,57 @@ class RegisterScreen extends StatelessWidget {
                             decoration: const InputDecoration(
                               labelText: AppStrings.email,
                               prefixIcon: Icon(Icons.email_outlined),
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          TextFormField(
+                            controller: viewModel.cpfController,
+                            keyboardType: TextInputType.number,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly,
+                              LengthLimitingTextInputFormatter(11),
+                              cpfFormatter,
+                            ],
+                            validator: viewModel.validateCpf,
+                            onChanged: (_) => viewModel.clearError(),
+                            decoration: const InputDecoration(
+                              labelText: 'CPF',
+                              hintText: '000.000.000-00',
+                              prefixIcon: Icon(Icons.badge_outlined),
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          TextFormField(
+                            controller: viewModel.phoneController,
+                            keyboardType: TextInputType.phone,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly,
+                              LengthLimitingTextInputFormatter(11),
+                              phoneFormatter,
+                            ],
+                            validator: viewModel.validatePhone,
+                            onChanged: (_) => viewModel.clearError(),
+                            decoration: const InputDecoration(
+                              labelText: 'Telefone',
+                              hintText: '(00) 00000-0000',
+                              prefixIcon: Icon(Icons.phone_outlined),
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          TextFormField(
+                            controller: viewModel.birthDateController,
+                            keyboardType: TextInputType.number,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly,
+                              LengthLimitingTextInputFormatter(8),
+                              birthDateFormatter,
+                            ],
+                            validator: viewModel.validateBirthDate,
+                            onChanged: (_) => viewModel.clearError(),
+                            decoration: const InputDecoration(
+                              labelText: 'Data de nascimento',
+                              hintText: 'DD/MM/YYYY',
+                              prefixIcon: Icon(Icons.calendar_today_outlined),
                             ),
                           ),
                           const SizedBox(height: 16),
@@ -211,6 +267,87 @@ class RegisterScreen extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+class _CpfInputFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
+    final digits = newValue.text.replaceAll(RegExp(r'\D'), '');
+    final buffer = StringBuffer();
+
+    for (var i = 0; i < digits.length; i++) {
+      if (i == 3 || i == 6) {
+        buffer.write('.');
+      }
+      if (i == 9) {
+        buffer.write('-');
+      }
+      buffer.write(digits[i]);
+    }
+
+    final text = buffer.toString();
+    return TextEditingValue(
+      text: text,
+      selection: TextSelection.collapsed(offset: text.length),
+    );
+  }
+}
+
+class _BrazilPhoneInputFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
+    final digits = newValue.text.replaceAll(RegExp(r'\D'), '');
+    final buffer = StringBuffer();
+
+    for (var i = 0; i < digits.length; i++) {
+      if (i == 0) {
+        buffer.write('(');
+      }
+      if (i == 2) {
+        buffer.write(') ');
+      }
+      if (i == 7) {
+        buffer.write('-');
+      }
+      buffer.write(digits[i]);
+    }
+
+    final text = buffer.toString();
+    return TextEditingValue(
+      text: text,
+      selection: TextSelection.collapsed(offset: text.length),
+    );
+  }
+}
+
+class _DateInputFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
+    final digits = newValue.text.replaceAll(RegExp(r'\D'), '');
+    final buffer = StringBuffer();
+
+    for (var i = 0; i < digits.length; i++) {
+      if (i == 2 || i == 4) {
+        buffer.write('/');
+      }
+      buffer.write(digits[i]);
+    }
+
+    final text = buffer.toString();
+    return TextEditingValue(
+      text: text,
+      selection: TextSelection.collapsed(offset: text.length),
     );
   }
 }
