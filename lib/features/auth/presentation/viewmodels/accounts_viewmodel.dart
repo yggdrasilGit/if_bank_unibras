@@ -57,10 +57,10 @@
 /// ------------------------------------------------------------
 ///
 /// Autor(es):
-/// - Nao definido (placeholder aberto para contribuicao da equipe)
+/// - Victor Hugo Rodrigues e José Antônio
 ///
 /// Criado em: 07/04/2026
-/// Ultima modificacao: 07/04/2026
+/// Ultima modificacao: 13/04/2026
 ///
 /// ------------------------------------------------------------
 ///
@@ -68,7 +68,7 @@
 ///
 /// Versao | Data       | Autor       | Descricao
 /// 1.0.0  | 07/04/2026 | Caio Menin   | Criacao inicial placeholder do ViewModel de contas e disponibilizacao para a equipe
-///
+/// 1.0.1  | 13/04/2026 | Victor Hugo Rodrigues | Assumiu autoria da tela
 /// ------------------------------------------------------------
 ///
 /// Licenca:

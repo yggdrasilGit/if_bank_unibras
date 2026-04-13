@@ -19,15 +19,15 @@
 // - ../features/auth/presentation/viewmodels/accounts_viewmodel.dart
 //
 // Autor(es):
-// - Nao definido (placeholder aberto para contribuicao da equipe)
+// - Victor Hugo Rodrigues e José Antônio
 //
 // Criado em: 07/04/2026
-// Ultima modificacao: 07/04/2026
+// Ultima modificacao: 13/04/2026
 //
 // Historico:
 // Versao | Data       | Autor       | Descricao
 // 1.0.0  | 07/04/2026 | Caio Menin   | Criacao inicial placeholder da tela de contas e disponibilizacao para a equipe
-//
+// 1.0.1  | 13/04/2026 | Victor Hugo Rodrigues | Assumiu autoria da tela
 // Observacoes:
 // - O botao "Adicionar Conta" esta em estado inicial (placeholder).
 // - Estrutura mantida propositalmente simples para facilitar evolucao.
@@ -108,15 +108,15 @@ class _AccountsScreenState extends State<AccountsScreen> {
                     ],
                   ),
                   const SizedBox(height: 16),
-                  Expanded(
-                    child: _buildBody(viewModel),
-                  ),
+                  Expanded(child: _buildBody(viewModel)),
                   const SizedBox(height: 12),
                   OutlinedButton(
                     onPressed: () {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
-                          content: Text('Fluxo de adicionar conta em construção.'),
+                          content: Text(
+                            'Fluxo de adicionar conta em construção.',
+                          ),
                         ),
                       );
                     },
