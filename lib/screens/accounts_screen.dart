@@ -28,6 +28,7 @@
 // Versao | Data       | Autor       | Descricao
 // 1.0.0  | 07/04/2026 | Caio Menin   | Criacao inicial placeholder da tela de contas e disponibilizacao para a equipe
 // 1.0.1  | 13/04/2026 | Victor Hugo Rodrigues | Assumiu autoria da tela
+// 1.0.2  | 14/04/2026 | Victor Hugo Rodrigues e José Antônio | Assumiram autoria da tela
 // Observacoes:
 // - O botao "Adicionar Conta" esta em estado inicial (placeholder).
 // - Estrutura mantida propositalmente simples para facilitar evolucao.
