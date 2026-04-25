@@ -9,7 +9,7 @@
 // Responsabilidades:
 // - Exibir resumo do portfolio.
 // - Exibir lista de ativos em cards.
-// - Exibir acao inicial para adicionar ativo (placeholder).
+// - Exibir acao inicial para adicionar ativo (placeholder);
 // - Servir como base aberta para evolucao por qualquer integrante da equipe.
 //
 // Dependencias:
