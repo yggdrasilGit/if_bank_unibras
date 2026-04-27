@@ -128,6 +128,7 @@ import '../presentation/viewmodels/forgot_password_viewmodel.dart';
 import '../presentation/viewmodels/login_viewmodel.dart';
 import '../presentation/viewmodels/edit_profile_viewmodel.dart';
 import '../presentation/viewmodels/register_viewmodel.dart';
+import '../presentation/viewmodels/transfer_viewmodel.dart';
 
 /// Módulo de injeção de dependências da feature Auth.
 class AuthInjector {
@@ -201,6 +202,9 @@ class AuthInjector {
       create: (context) => AccountsViewModel(
         authRemoteDataSource: context.read<AuthRemoteDataSource>(),
       ),
+    ),
+    ChangeNotifierProvider<TransferViewModel>(
+      create: (_) => TransferViewModel(),
     ),
   ];
 }

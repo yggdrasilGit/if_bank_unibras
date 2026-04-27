@@ -135,6 +135,7 @@ import 'package:if_bank/screens/home_screen.dart';
 import 'package:if_bank/screens/investments_screen.dart';
 import 'package:if_bank/screens/login_screen.dart';
 import 'package:if_bank/screens/register_screen.dart';
+import 'package:if_bank/screens/transfer_screen.dart';
 
 import '../../features/auth/presentation/views/login_page.dart';
 
@@ -148,6 +149,7 @@ class AppRoutes {
   static const String editProfile = '/edit-profile';
   static const String accounts = '/accounts';
   static const String investments = '/investments';
+  static const String transfer = '/transfer';
 
   /// Rota da página de (Registro)
   // static const Register register = '/register'
@@ -169,5 +171,6 @@ class AppRoutes {
     editProfile: (_) => const EditProfileScreen(),
     accounts: (_) => const AccountsScreen(),
     investments: (_) => const InvestmentsScreen(),
+    transfer: (_) => const TransferScreen(),
   };
 }
